@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "jCuswOtOlCySKfgF9qmf4X4u8sWhNV0XV5OlCtS7T8SkDCJYhTPEUzGAHCCck7q/NwKw7o6HK3bJKjfuTG4odA==",
+  "success": true,
+  "projectFilePath": "D:\\Outreach Automation\\OutreachAutomation\\OutreachAutomation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\selenium.webdriver\\4.4.0\\selenium.webdriver.4.4.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\sharpziplib\\1.3.3\\sharpziplib.1.3.3.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
+    "C:\\Users\\Ahnaf\\.nuget\\packages\\webdrivermanager\\2.15.0\\webdrivermanager.2.15.0.nupkg.sha512"
+  ],
+  "logs": []
+}
