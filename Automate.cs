@@ -19,15 +19,19 @@ namespace OutreachAutomation
                 var driver = EdgeDriver();
 
                 // Hit the generated link
-                var url = "https://outreach.ophs.io/9bIh6ZVD";
-                driver.Navigate().GoToUrl(url);
+                driver.Navigate().GoToUrl("https://outreach.ophs.io/9bIh6ZVD");
                 Thread.Sleep(3000);
+                
+                if (driver.Url == null)
+                {
+                    Automate.Script();
+                }
 
                 // Find the Swipe Up body
                 var ele = driver.FindElement(By.Id("upArrow"));
                 ele.Click();
                 Thread.Sleep(2000);
-                
+
                 // Find Country code element
                 var ele1 = driver.FindElement(By.Name("country_code"));
                 ele1.Click();
@@ -37,7 +41,7 @@ namespace OutreachAutomation
 
                 // Find Phone number input element
                 var ele2 = driver.FindElement(By.Name("phone_number"));
-                ele2.SendKeys("1231231231");
+                ele2.SendKeys(GetDummyNumber());
                 Thread.Sleep(1000);
 
                 // Click for Send OTP
@@ -54,6 +58,26 @@ namespace OutreachAutomation
                 var ele5 = driver.FindElement(By.ClassName("btn-sendotp"));
                 ele5.Click();
                 Thread.Sleep(3000);
+
+                // In the case that the dummy number is unregistered, the bot will register into the system
+                if (driver.Url == "https://outreach.ophs.io/register")
+                {
+                    var elementName = driver.FindElement(By.Name("name"));
+                    elementName.SendKeys("Ophs Selenium Bot - " + new Random().Next(50000).ToString());
+                    Thread.Sleep(1500);
+
+                    var elementAge = driver.FindElement(By.Name("age"));
+                    elementAge.SendKeys("999");
+                    Thread.Sleep(1500);
+
+                    var elementGender = driver.FindElement(By.Id("dont_disclose"));
+                    elementGender.Click();
+                    Thread.Sleep(2000);
+
+                    var elementNext = driver.FindElement(By.ClassName("btn-next"));
+                    elementGender.Click();
+                    Thread.Sleep(3000);
+                }
 
                 // Click Enter Experience
                 var ele6 = driver.FindElement(By.Id("enterExperience"));
@@ -86,6 +110,7 @@ namespace OutreachAutomation
             }
         }
 
+        // Random test script to try out
         public static void TestScript()
         {
             Console.Write("Test case started");
@@ -137,12 +162,15 @@ namespace OutreachAutomation
             {
                 "1231231231",
                 "1234561231",
-                "1231234561"
+                "1231234561",
+                "4561231231",
+                "1234564561",
+                "4564564561",
             };
 
             var random = new Random();
             var index = random.Next(numbers.Count);
-            
+
             return numbers[index];
         }
     }

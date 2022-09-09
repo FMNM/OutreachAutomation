@@ -31,3 +31,36 @@ D:\Outreach Automation\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.dl
 D:\Outreach Automation\OutreachAutomation\obj\Debug\net5.0\ref\OutreachAutomation.dll
 D:\Outreach Automation\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.pdb
 D:\Outreach Automation\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.genruntimeconfig.cache
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\appsettings.Development.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\appsettings.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\global.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.exe
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.deps.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.runtimeconfig.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.runtimeconfig.dev.json
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\OutreachAutomation.pdb
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\AngleSharp.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\WebDriver.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\System.Text.Encoding.CodePages.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\WebDriverManager.dll
+E:\Projects\OutreachAutomation\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.csproj.AssemblyReference.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.AssemblyInfoInputs.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.AssemblyInfo.cs
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.csproj.CoreCompileInputs.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.MvcApplicationPartsAssemblyInfo.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\staticwebassets\OutreachAutomation.StaticWebAssets.Manifest.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\staticwebassets\OutreachAutomation.StaticWebAssets.xml
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\scopedcss\bundle\OutreachAutomation.styles.css
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.RazorTargetAssemblyInfo.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.csproj.CopyComplete
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.dll
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\refint\OutreachAutomation.dll
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.pdb
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\OutreachAutomation.genruntimeconfig.cache
+E:\Projects\OutreachAutomation\obj\Debug\net5.0\ref\OutreachAutomation.dll
