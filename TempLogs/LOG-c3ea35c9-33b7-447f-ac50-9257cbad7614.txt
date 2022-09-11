@@ -1,0 +1,22 @@
+[13-Sep-22 12:20:01 PM] STARTING AUTOMATION
+[13-Sep-22 12:20:07 PM] SUCCESSFUL CONNECTION TO Invitation link, https://outreach.ophs.io/9bIh6ZVD
+[13-Sep-22 12:20:10 PM] ACTION - Swipe Up
+[13-Sep-22 12:20:11 PM] ACTION - Selected country code
+[13-Sep-22 12:20:12 PM] ACTION - Entered dummy phone number, 6083460584
+[13-Sep-22 12:20:14 PM] ACTION - Requested OTP
+[13-Sep-22 12:20:15 PM] ACTION - Entered dummy OTP, 123456
+[13-Sep-22 12:20:18 PM] ACTION - Click button to verify OTP
+[13-Sep-22 12:20:18 PM] DETECTED Unregistered user. PROCEEDING Registration
+[13-Sep-22 12:20:19 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 40515
+[13-Sep-22 12:20:21 PM] ACTION - Enter dummy age, 52
+[13-Sep-22 12:20:23 PM] ACTION - Selected undisclosed gender
+[13-Sep-22 12:20:26 PM] ACTION - Click button to register
+[13-Sep-22 12:20:26 PM] REACHED Home Property
+[13-Sep-22 12:20:26 PM] ACTION - Click to Enter Experience
+[13-Sep-22 12:20:26 PM] ACTION - Starting a 70s delay
+[13-Sep-22 12:21:36 PM] ACTION - Ending delay
+[13-Sep-22 12:21:41 PM] ACTION - Click to enter
+[13-Sep-22 12:21:42 PM] ENDING AUTOMATION
+[13-Sep-22 12:21:42 PM] RESULT : FAILED
+[13-Sep-22 12:21:42 PM] REASON : element click intercepted: Element <div class="text-cyan border-b-2  inline-block border-cyan cursor-pointer skip-ex" onclick="hideAllTutorials()" style="pointer-events: all; z-index: 550;">...</div> is not clickable at point (398, 705). Other element would receive the click: <div class="text-orrange border-b-2  inline-block border-orrage cursor-pointer" onclick="hideAllTutorials()" style="z-index: 550; pointer-events: all;">...</div>
+  (Session info: MicrosoftEdge=105.0.1343.33)
