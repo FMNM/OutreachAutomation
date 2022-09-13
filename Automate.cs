@@ -23,15 +23,16 @@ namespace OutreachAutomation
 
             logs.AppendLine("---------------------------------------------");
             logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
+
+            var driver = EdgeDriver();
             var retry = 0;
             try
             {
-                var driver = EdgeDriver();
-
                 // Hit the generated link
                 const string url = "https://outreach.ophs.io/9bIh6ZVD";
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
+                // Retries 3 times
                 while (driver.Url == null && retry < 3)
                 {
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Connection failed to invitation link, {url}");
@@ -42,7 +43,7 @@ namespace OutreachAutomation
 
                 if (driver.Url == null)
                 {
-                    Console.Write("FAILED");
+                    Console.WriteLine("FAILED");
                     throw new Exception("Could not connect");
                 }
 
@@ -136,9 +137,9 @@ namespace OutreachAutomation
                 // Delay added to sync with Matchmaker delay
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Starting a 70s delay");
                 Thread.Sleep(70000);
-                // 3 retries
+                // Retries 3 times
                 retry = 0;
-                while (driver.Url == "https://outreach.ophs.io/experience-loading" && retry < 1)
+                while (driver.Url == "https://outreach.ophs.io/experience-loading" && retry < 3)
                 {
                     driver.Navigate().Refresh();
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
@@ -148,7 +149,7 @@ namespace OutreachAutomation
 
                 if (driver.Url == "https://outreach.ophs.io/experience-loading")
                 {
-                    Console.Write("FAILED");
+                    Console.WriteLine("FAILED");
                     throw new Exception("Could not find any instances");
                 }
 
@@ -156,6 +157,22 @@ namespace OutreachAutomation
 
                 // Tap to continue
                 var ele7 = driver.FindElement(By.Id("main"));
+                retry = 0;
+                while (ele7 == null && retry < 3)
+                {
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
+                    ele7 = driver.FindElement(By.Id("main"));
+                    if (ele7 != null) break;
+                    retry++;
+                    Thread.Sleep(3000);
+                }
+
+                if (ele7 == null)
+                {
+                    Console.WriteLine("FAILED");
+                    throw new Exception("Could not load any instance");
+                }
+
                 ele7.Click();
                 Thread.Sleep(5000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
@@ -181,28 +198,32 @@ namespace OutreachAutomation
                 Thread.Sleep(3000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 
-                Console.Write("SUCCESS");
+                Console.WriteLine("SUCCESS");
                 logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
                 logs.AppendLine("---------------------------------------------");
-                logs.AppendLine($"[{DateTime.Now}] RESULT : SUCCESS");
+                logs.AppendLine("RESULT : SUCCESS");
 
                 File.AppendAllText($"{filePath}.txt", logs.ToString());
                 logs.Clear();
+
+                driver.Quit();
 
                 return;
             }
             catch (Exception ex)
             {
-                Console.Write("FAILED");
+                Console.WriteLine("FAILED");
                 logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
                 logs.AppendLine("---------------------------------------------");
-                logs.AppendLine($"[{DateTime.Now}] RESULT : FAILED");
-                logs.AppendLine($"[{DateTime.Now}] REASON : {ex.Message}");
+                logs.AppendLine("RESULT : FAILED");
+                logs.AppendLine($"REASON : {ex.Message}");
 
                 File.AppendAllText($"{filePath}.txt", logs.ToString());
                 logs.Clear();
 
-                throw new Exception(ex.Message);
+                driver.Quit();
+
+                return;
             }
         }
 
@@ -239,7 +260,7 @@ namespace OutreachAutomation
 
         private static string RandomGenerator(int count)
         {
-            var digits = "0123456789";
+            const string digits = "0123456789";
 
             var random = new Random();
             return new string(Enumerable.Repeat(digits, count).Select(s => s[random.Next(s.Length)]).ToArray());

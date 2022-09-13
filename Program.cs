@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
 namespace OutreachAutomation
 {
@@ -16,7 +10,7 @@ namespace OutreachAutomation
         {
             try
             {
-                Console.WriteLine("Enter number of instances: ");
+                Console.WriteLine("Enter number of threads: ");
                 var instances = Convert.ToInt32(Console.ReadLine());
 
                 var threads = new List<Thread>();
