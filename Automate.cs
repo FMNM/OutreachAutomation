@@ -21,6 +21,7 @@ namespace OutreachAutomation
             var logId = Guid.NewGuid().ToString();
             var filePath = Path.Combine(Environment.CurrentDirectory, @"TempLogs\", $"LOG-{logId}");
 
+            logs.AppendLine("---------------------------------------------");
             logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
             var retry = 0;
             try
@@ -33,7 +34,7 @@ namespace OutreachAutomation
                 Thread.Sleep(3000);
                 while (driver.Url == null && retry < 3)
                 {
-                    logs.AppendLine($"[{DateTime.Now}] FAILED CONNECTION TO Invitation link, {url}");
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Connection failed to invitation link, {url}");
                     driver.Navigate().Refresh();
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
                     retry++;
@@ -42,18 +43,10 @@ namespace OutreachAutomation
                 if (driver.Url == null)
                 {
                     Console.Write("FAILED");
-                    logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
-                    logs.AppendLine($"[{DateTime.Now}] RESULT : FAILED");
-
-                    File.AppendAllText($"{filePath}.txt", logs.ToString());
-                    logs.Clear();
-
-                    driver.Quit();
-
-                    throw new Exception("COULD NOT CONNECT");
+                    throw new Exception("Could not connect");
                 }
 
-                logs.AppendLine($"[{DateTime.Now}] SUCCESSFUL CONNECTION TO Invitation link, {url}");
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Connected to invitation link, {url}");
 
                 // Find the Swipe Up body
                 var ele = driver.FindElement(By.Id("upArrow"));
@@ -156,15 +149,7 @@ namespace OutreachAutomation
                 if (driver.Url == "https://outreach.ophs.io/experience-loading")
                 {
                     Console.Write("FAILED");
-                    logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
-                    logs.AppendLine($"[{DateTime.Now}] RESULT : FAILED");
-
-                    File.AppendAllText($"{filePath}.txt", logs.ToString());
-                    logs.Clear();
-
-                    driver.Quit();
-
-                    throw new Exception("COULD NOT FIND ANY INSTANCES");
+                    throw new Exception("Could not find any instances");
                 }
 
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Ending delay");
@@ -174,12 +159,12 @@ namespace OutreachAutomation
                 ele7.Click();
                 Thread.Sleep(5000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
-                
-                // Skip tutorial
-                var ele8 = driver.FindElement(By.ClassName("skip-ex"));
+
+                // Skip tutorial (if any)
+                var ele8 = driver.FindElement(By.ClassName("text-cyan"));
                 if (ele8 != null)
                 {
-                    ele8.Click();
+                    driver.ExecuteScript("hideAllTutorials()");
                     Thread.Sleep(2000);
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
                 }
@@ -198,8 +183,9 @@ namespace OutreachAutomation
 
                 Console.Write("SUCCESS");
                 logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
+                logs.AppendLine("---------------------------------------------");
                 logs.AppendLine($"[{DateTime.Now}] RESULT : SUCCESS");
-                
+
                 File.AppendAllText($"{filePath}.txt", logs.ToString());
                 logs.Clear();
 
@@ -209,6 +195,7 @@ namespace OutreachAutomation
             {
                 Console.Write("FAILED");
                 logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
+                logs.AppendLine("---------------------------------------------");
                 logs.AppendLine($"[{DateTime.Now}] RESULT : FAILED");
                 logs.AppendLine($"[{DateTime.Now}] REASON : {ex.Message}");
 
