@@ -1,0 +1,22 @@
+---------------------------------------------
+[13-Sep-22 4:30:31 PM] STARTING AUTOMATION
+[13-Sep-22 4:30:39 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[13-Sep-22 4:30:42 PM] ACTION - Swipe Up
+[13-Sep-22 4:30:43 PM] ACTION - Selected country code
+[13-Sep-22 4:30:44 PM] ACTION - Entered dummy phone number, 5489660574
+[13-Sep-22 4:30:46 PM] ACTION - Requested OTP
+[13-Sep-22 4:30:47 PM] ACTION - Entered dummy OTP, 123456
+[13-Sep-22 4:30:50 PM] ACTION - Click button to verify OTP
+[13-Sep-22 4:30:50 PM] DETECTED Unregistered user. PROCEEDING Registration
+[13-Sep-22 4:30:51 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 10656
+[13-Sep-22 4:30:53 PM] ACTION - Enter dummy age, 64
+[13-Sep-22 4:30:55 PM] ACTION - Selected undisclosed gender
+[13-Sep-22 4:30:58 PM] ACTION - Click button to register
+[13-Sep-22 4:30:58 PM] REACHED Home Property
+[13-Sep-22 4:30:58 PM] ACTION - Click to Enter Experience
+[13-Sep-22 4:30:58 PM] ACTION - Starting a 70s delay
+[13-Sep-22 4:32:09 PM] ACTION - Retrying...
+[13-Sep-22 4:33:19 PM] ENDING AUTOMATION
+---------------------------------------------
+[13-Sep-22 4:33:19 PM] RESULT : FAILED
+[13-Sep-22 4:33:19 PM] REASON : Could not find any instances
