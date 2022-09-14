@@ -1,0 +1,24 @@
+---------------------------------------------
+[14-Sep-22 12:46:39 PM] STARTING AUTOMATION
+[14-Sep-22 12:46:47 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[14-Sep-22 12:46:49 PM] ACTION - Swipe Up
+[14-Sep-22 12:46:50 PM] ACTION - Selected country code
+[14-Sep-22 12:46:51 PM] ACTION - Entered dummy phone number, 3387026506
+[14-Sep-22 12:46:53 PM] ACTION - Requested OTP
+[14-Sep-22 12:46:55 PM] ACTION - Entered dummy OTP, 123456
+[14-Sep-22 12:46:58 PM] ACTION - Click button to verify OTP
+[14-Sep-22 12:46:58 PM] DETECTED Unregistered user. PROCEEDING Registration
+[14-Sep-22 12:46:59 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 4866
+[14-Sep-22 12:47:01 PM] ACTION - Enter dummy age, 61
+[14-Sep-22 12:47:03 PM] ACTION - Selected undisclosed gender
+[14-Sep-22 12:47:06 PM] ACTION - Click button to register
+[14-Sep-22 12:47:06 PM] REACHED Home Property
+[14-Sep-22 12:47:06 PM] ACTION - Click to Enter Experience
+[14-Sep-22 12:47:06 PM] ACTION - Starting a 70s delay
+[14-Sep-22 12:48:16 PM] ACTION - Retrying...
+[14-Sep-22 12:49:26 PM] ACTION - Ending delay
+[14-Sep-22 12:49:26 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : no such element: Unable to locate element: {"method":"css selector","selector":"#main"}
+  (Session info: MicrosoftEdge=105.0.1343.33)

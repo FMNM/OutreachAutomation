@@ -1,0 +1,26 @@
+---------------------------------------------
+[14-Sep-22 12:46:39 PM] STARTING AUTOMATION
+[14-Sep-22 12:46:49 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[14-Sep-22 12:46:51 PM] ACTION - Swipe Up
+[14-Sep-22 12:46:52 PM] ACTION - Selected country code
+[14-Sep-22 12:46:53 PM] ACTION - Entered dummy phone number, 5890260424
+[14-Sep-22 12:46:55 PM] ACTION - Requested OTP
+[14-Sep-22 12:46:56 PM] ACTION - Entered dummy OTP, 123456
+[14-Sep-22 12:46:59 PM] ACTION - Click button to verify OTP
+[14-Sep-22 12:46:59 PM] DETECTED Unregistered user. PROCEEDING Registration
+[14-Sep-22 12:47:01 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 34555
+[14-Sep-22 12:47:02 PM] ACTION - Enter dummy age, 67
+[14-Sep-22 12:47:04 PM] ACTION - Selected undisclosed gender
+[14-Sep-22 12:47:07 PM] ACTION - Click button to register
+[14-Sep-22 12:47:07 PM] REACHED Home Property
+[14-Sep-22 12:47:07 PM] ACTION - Click to Enter Experience
+[14-Sep-22 12:47:07 PM] ACTION - Starting a 70s delay
+[14-Sep-22 12:48:18 PM] ACTION - Retrying...
+[14-Sep-22 12:49:28 PM] ACTION - Ending delay
+[14-Sep-22 12:49:33 PM] ACTION - Click to enter
+[14-Sep-22 12:49:35 PM] ACTION - Skip tutorial
+[14-Sep-22 12:49:37 PM] ACTION - Pull up slider menu
+[14-Sep-22 12:49:43 PM] ACTION - Click to exit experience
+[14-Sep-22 12:49:43 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : SUCCESS

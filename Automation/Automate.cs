@@ -1,16 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
-namespace OutreachAutomation
+namespace OutreachAutomation.Automation
 {
     public static class Automate
     {
@@ -24,7 +18,7 @@ namespace OutreachAutomation
             logs.AppendLine("---------------------------------------------");
             logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
 
-            var driver = EdgeDriver();
+            var driver = BrowserDrivers.EdgeDriver();
             var retry = 0;
             try
             {
@@ -65,7 +59,7 @@ namespace OutreachAutomation
 
                 // Find Phone number input element
                 var ele2 = driver.FindElement(By.Name("phone_number"));
-                var number = RandomGenerator(10);
+                var number = Generator.NumberGenerator(10);
                 ele2.SendKeys(number);
                 Thread.Sleep(1000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Entered dummy phone number, {number}");
@@ -226,46 +220,5 @@ namespace OutreachAutomation
                 return;
             }
         }
-
-        #region Initialize Browser Drivers
-
-        private static EdgeDriver EdgeDriver()
-        {
-            // Chrome
-            new DriverManager().SetUpDriver(new EdgeConfig());
-            var driver = new EdgeDriver();
-
-            return driver;
-        }
-
-        private static ChromeDriver ChromeDriver()
-        {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            var driver = new ChromeDriver();
-
-            return driver;
-        }
-
-        private static FirefoxDriver FirefoxDriver()
-        {
-            new DriverManager().SetUpDriver(new FirefoxConfig());
-            var driver = new FirefoxDriver();
-
-            return driver;
-        }
-
-        #endregion
-
-        #region Randomized Generators
-
-        private static string RandomGenerator(int count)
-        {
-            const string digits = "0123456789";
-
-            var random = new Random();
-            return new string(Enumerable.Repeat(digits, count).Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
-        #endregion
     }
 }
