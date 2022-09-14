@@ -3,25 +3,36 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using OutreachAutomation.Automation.DriverBrowser;
 
 namespace OutreachAutomation.Automation
 {
     public static class Automate
     {
-        public static void Script()
+        public static void Script(WebDriver driver)
         {
             var logs = new StringBuilder();
-
             var logId = Guid.NewGuid().ToString();
             var filePath = Path.Combine(Environment.CurrentDirectory, @"TempLogs\", $"LOG-{logId}");
 
-            logs.AppendLine("---------------------------------------------");
-            logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
-
-            var driver = BrowserDrivers.EdgeDriver();
-            var retry = 0;
             try
             {
+                var browser = new BrowserInfo
+                {
+                    Name = driver.Capabilities.GetCapability("browserName").ToString(),
+                    Version = driver.Capabilities.GetCapability("browserVersion").ToString(),
+                };
+
+                logs.AppendLine($"Selenium WebDriver Bot Log - {logId}");
+                logs.AppendLine("---------------------------------------------");
+                logs.AppendLine($"BROWSER : {browser.Name}");
+                logs.AppendLine($"VERSION : {browser.Version}");
+                logs.AppendLine("---------------------------------------------");
+                logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
+
+                var retry = 0;
+
                 // Hit the generated link
                 const string url = "https://outreach.ophs.io/9bIh6ZVD";
                 driver.Navigate().GoToUrl(url);
@@ -93,8 +104,10 @@ namespace OutreachAutomation.Automation
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
 
                     var elementAge = driver.FindElement(By.Name("age"));
-                    var dAge = new Random().Next(18, 105).ToString();
+                    var dAge = new Random().Next(18, 100).ToString();
                     elementAge.SendKeys(dAge);
+                    Thread.Sleep(1000);
+
                     Thread.Sleep(1500);
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
 
@@ -114,82 +127,121 @@ namespace OutreachAutomation.Automation
                 }
 
                 // Click Enter Experience
-                logs.AppendLine($"[{DateTime.Now}] REACHED Home Property");
+                logs.AppendLine($"[{DateTime.Now}] REACHED Home Page");
+                Thread.Sleep(1500);
                 if (driver.Url == "https://outreach.ophs.io/home-buyer")
                 {
-                    var ele6 = driver.FindElement(By.ClassName("default-enter-experience"));
-                    ele6.Click();
+                    var ele6 = driver.FindElement(By.Id("enter-ex-1"));
+                    try
+                    {
+                        ele6.Click();
+                        Thread.Sleep(1500);
+                    }
+                    catch (Exception)
+                    {
+                        ele6 = driver.FindElement(By.Id("enter-ex-2"));
+                        Thread.Sleep(1500);
+                        ele6.Click();
+                    }
                 }
                 else
                 {
                     var ele6 = driver.FindElement(By.Id("enterExperience"));
+                    Thread.Sleep(1500);
                     ele6.Click();
                 }
 
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to Enter Experience");
 
-                // Delay added to sync with Matchmaker delay
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Starting a 70s delay");
-                Thread.Sleep(70000);
-                // Retries 3 times
-                retry = 0;
-                while (driver.Url == "https://outreach.ophs.io/experience-loading" && retry < 3)
-                {
-                    driver.Navigate().Refresh();
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
-                    retry++;
-                    Thread.Sleep(70000);
-                }
+                // Find instance
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(210));
+                var res = wait.Until(x => x.Url.Contains("stream"));
 
-                if (driver.Url == "https://outreach.ophs.io/experience-loading")
+                if (!res)
                 {
-                    Console.WriteLine("FAILED");
                     throw new Exception("Could not find any instances");
                 }
 
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Ending delay");
-
                 // Tap to continue
-                var ele7 = driver.FindElement(By.Id("main"));
-                retry = 0;
-                while (ele7 == null && retry < 3)
-                {
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
-                    ele7 = driver.FindElement(By.Id("main"));
-                    if (ele7 != null) break;
-                    retry++;
-                    Thread.Sleep(3000);
-                }
-
-                if (ele7 == null)
-                {
-                    Console.WriteLine("FAILED");
-                    throw new Exception("Could not load any instance");
-                }
-
-                ele7.Click();
                 Thread.Sleep(5000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
-
-                // Skip tutorial (if any)
-                var ele8 = driver.FindElement(By.ClassName("text-cyan"));
-                if (ele8 != null)
+                if (driver.Url.Contains("stream"))
                 {
-                    driver.ExecuteScript("hideAllTutorials()");
-                    Thread.Sleep(2000);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
+                    try
+                    {
+                        var ele7 = driver.FindElement(By.Id("main"));
+                        if (ele7 == null)
+                        {
+                            driver.Navigate().Refresh();
+                            Thread.Sleep(8000);
+
+                            ele7 = driver.FindElement(By.Id("main"));
+                            if (ele7 == null)
+                            {
+                                throw new Exception("Could not enter instance");
+                            }
+                        }
+
+                        ele7.Click();
+                        Thread.Sleep(2000);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
+
+                        // Skip tutorial (if any)
+                        var ele8 = driver.FindElement(By.ClassName("text-cyan"));
+                        if (ele8 != null)
+                        {
+                            driver.ExecuteScript("hideAllTutorials()");
+                            Thread.Sleep(2000);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            Thread.Sleep(6000);
+                            
+                            var ele7 = driver.FindElement(By.Id("videoPlayOverlay"));
+                            ele7?.Click();
+                            Thread.Sleep(2000);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
+
+                            // Skip tutorial (if any)
+                            var ele8 = driver.FindElement(By.ClassName("text-cyan"));
+                            if (ele8 != null)
+                            {
+                                driver.ExecuteScript("hideAllTutorials()");
+                                Thread.Sleep(2000);
+                                logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            throw new Exception("Could not enter instance properly");
+                        }
+
+                    }
                 }
 
-                // Pull up hidden panel
-                var ele9 = driver.FindElement(By.Id("chevronSlider"));
-                ele9.Click();
-                Thread.Sleep(2000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
+                if (driver.Url.Contains("stream"))
+                {
+                    try
+                    {
+                        // Pull up hidden panel
+                        var ele9 = driver.FindElement(By.Id("chevronSlider"));
+                        ele9.Click();
+                        Thread.Sleep(2000);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Could not connect to instance");
+                    }
+                }
 
                 // Exit stream
                 var ele10 = driver.FindElement(By.Id("outreach-back-url"));
+                Thread.Sleep(15000);
                 ele10.Click();
-                Thread.Sleep(3000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 
                 Console.WriteLine("SUCCESS");
@@ -201,8 +253,6 @@ namespace OutreachAutomation.Automation
                 logs.Clear();
 
                 driver.Quit();
-
-                return;
             }
             catch (Exception ex)
             {
@@ -216,8 +266,6 @@ namespace OutreachAutomation.Automation
                 logs.Clear();
 
                 driver.Quit();
-
-                return;
             }
         }
     }

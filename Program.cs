@@ -24,6 +24,7 @@ namespace OutreachAutomation
                 foreach (var threading in threads)
                 {
                     threading.Start();
+                    Thread.Sleep(10000);
                 }
             }
             catch (Exception ex)
@@ -34,7 +35,10 @@ namespace OutreachAutomation
 
         private static void Func()
         {
-            Automate.Script();
+            var random = new Random();
+            var driver = BrowserDrivers.GetDriver(random.Next(0, 3));
+            
+            Automate.Script(driver);
         }
     }
 }

@@ -1,0 +1,27 @@
+Selenium WebDriver Bot Log - 11ab860c-56eb-4854-bd95-dfb3dc5b80f3
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.33
+---------------------------------------------
+[15-Sep-22 6:52:43 PM] STARTING AUTOMATION
+[15-Sep-22 6:52:47 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[15-Sep-22 6:52:49 PM] ACTION - Swipe Up
+[15-Sep-22 6:52:50 PM] ACTION - Selected country code
+[15-Sep-22 6:52:51 PM] ACTION - Entered dummy phone number, 3017716129
+[15-Sep-22 6:52:53 PM] ACTION - Requested OTP
+[15-Sep-22 6:52:55 PM] ACTION - Entered dummy OTP, 123456
+[15-Sep-22 6:52:58 PM] ACTION - Click button to verify OTP
+[15-Sep-22 6:52:58 PM] DETECTED Unregistered user. PROCEEDING Registration
+[15-Sep-22 6:52:59 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 49713
+[15-Sep-22 6:53:02 PM] ACTION - Enter dummy age, 84
+[15-Sep-22 6:53:04 PM] ACTION - Selected undisclosed gender
+[15-Sep-22 6:53:07 PM] ACTION - Click button to register
+[15-Sep-22 6:53:07 PM] REACHED Home Page
+[15-Sep-22 6:53:10 PM] ACTION - Click to Enter Experience
+[15-Sep-22 6:54:12 PM] ACTION - Click to enter
+[15-Sep-22 6:54:14 PM] ACTION - Skip tutorial
+[15-Sep-22 6:54:16 PM] ACTION - Pull up slider menu
+[15-Sep-22 6:54:22 PM] ACTION - Click to exit experience
+[15-Sep-22 6:54:22 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : SUCCESS
