@@ -10,11 +10,12 @@ namespace OutreachAutomation.Automation
 {
     public static class Automate
     {
-        public static void Script(WebDriver driver)
+        public static void Script(WebDriver driver, string url)
         {
             var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString();
-            var filePath = Path.Combine(Environment.CurrentDirectory, @"TempLogs\", $"LOG-{logId}");
+            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
+                $"LOG-{logId}.txt");
 
             try
             {
@@ -33,8 +34,11 @@ namespace OutreachAutomation.Automation
 
                 var retry = 0;
 
-                // Hit the generated link
-                const string url = "https://outreach.ophs.io/9bIh6ZVD";
+                if (url == null)
+                {
+                    throw new Exception("No invitation link found");
+                }
+
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
                 // Retries 3 times
@@ -48,7 +52,6 @@ namespace OutreachAutomation.Automation
 
                 if (driver.Url == null)
                 {
-                    Console.WriteLine("FAILED");
                     throw new Exception("Could not connect");
                 }
 
@@ -199,7 +202,7 @@ namespace OutreachAutomation.Automation
                         try
                         {
                             Thread.Sleep(6000);
-                            
+
                             var ele7 = driver.FindElement(By.Id("videoPlayOverlay"));
                             ele7?.Click();
                             Thread.Sleep(2000);
@@ -218,7 +221,6 @@ namespace OutreachAutomation.Automation
                         {
                             throw new Exception("Could not enter instance properly");
                         }
-
                     }
                 }
 
@@ -240,7 +242,7 @@ namespace OutreachAutomation.Automation
 
                 // Exit stream
                 var ele10 = driver.FindElement(By.Id("outreach-back-url"));
-                Thread.Sleep(15000);
+                Thread.Sleep(5000);
                 ele10.Click();
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 
@@ -262,7 +264,7 @@ namespace OutreachAutomation.Automation
                 logs.AppendLine("RESULT : FAILED");
                 logs.AppendLine($"REASON : {ex.Message}");
 
-                File.AppendAllText($"{filePath}.txt", logs.ToString());
+                File.AppendAllText(filePath, logs.ToString());
                 logs.Clear();
 
                 driver.Quit();

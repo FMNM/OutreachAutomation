@@ -14,8 +14,8 @@ namespace OutreachAutomation.Automation
         {
             return i switch
             {
-                0 => EdgeDriver(),
-                1 => ChromeDriver(),
+                0 => ChromeDriver(),
+                1 => EdgeDriver(),
                 _ => FirefoxDriver()
             };
         }
@@ -24,7 +24,11 @@ namespace OutreachAutomation.Automation
         private static EdgeDriver EdgeDriver()
         {
             new DriverManager().SetUpDriver(new EdgeConfig());
-            var driver = new EdgeDriver();
+            
+            var op = new EdgeOptions();
+            op.AddArgument("--window-size=390,844");
+            
+            var driver = new EdgeDriver(op);
 
             return driver;
         }
@@ -33,7 +37,11 @@ namespace OutreachAutomation.Automation
         private static ChromeDriver ChromeDriver()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
-            var driver = new ChromeDriver();
+            
+            var op = new ChromeOptions();
+            op.AddArgument("--window-size=390,844");
+            
+            var driver = new ChromeDriver(op);
 
             return driver;
         }
@@ -42,7 +50,12 @@ namespace OutreachAutomation.Automation
         private static FirefoxDriver FirefoxDriver()
         {
             new DriverManager().SetUpDriver(new FirefoxConfig());
-            var driver = new FirefoxDriver();
+            
+            var op = new FirefoxOptions();
+            op.AddArgument("--width=390");
+            op.AddArgument("--height=844");
+            
+            var driver = new FirefoxDriver(op);
 
             return driver;
         }

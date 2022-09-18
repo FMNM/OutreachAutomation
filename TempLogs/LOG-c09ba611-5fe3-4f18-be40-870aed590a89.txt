@@ -1,0 +1,27 @@
+Selenium WebDriver Bot Log - c09ba611-5fe3-4f18-be40-870aed590a89
+---------------------------------------------
+BROWSER : firefox
+VERSION : 104.0.2
+---------------------------------------------
+[19-Sep-22 12:44:47 PM] STARTING AUTOMATION
+[19-Sep-22 12:44:58 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[19-Sep-22 12:45:00 PM] ACTION - Swipe Up
+[19-Sep-22 12:45:01 PM] ACTION - Selected country code
+[19-Sep-22 12:45:02 PM] ACTION - Entered dummy phone number, 4352286742
+[19-Sep-22 12:45:05 PM] ACTION - Requested OTP
+[19-Sep-22 12:45:06 PM] ACTION - Entered dummy OTP, 123456
+[19-Sep-22 12:45:09 PM] ACTION - Click button to verify OTP
+[19-Sep-22 12:45:09 PM] DETECTED Unregistered user. PROCEEDING Registration
+[19-Sep-22 12:45:10 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 38209
+[19-Sep-22 12:45:13 PM] ACTION - Enter dummy age, 23
+[19-Sep-22 12:45:15 PM] ACTION - Selected undisclosed gender
+[19-Sep-22 12:45:18 PM] ACTION - Click button to register
+[19-Sep-22 12:45:18 PM] REACHED Home Page
+[19-Sep-22 12:45:21 PM] ACTION - Click to Enter Experience
+[19-Sep-22 12:46:23 PM] ACTION - Click to enter
+[19-Sep-22 12:46:25 PM] ACTION - Skip tutorial
+[19-Sep-22 12:46:27 PM] ACTION - Pull up slider menu
+[19-Sep-22 12:46:32 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : Element <a id="outreach-back-url" href="https://outreach.ophs.io/home-property"> could not be scrolled into view
