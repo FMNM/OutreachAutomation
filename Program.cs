@@ -25,6 +25,10 @@ namespace OutreachAutomation
 
                 Console.WriteLine("Enter number of threads: ");
                 var instances = Convert.ToInt32(Console.ReadLine());
+                if (instances == null || instances == 0)
+                {
+                    
+                }
 
                 Console.WriteLine("Have an invitation link already? (y/n)");
                 var isInvite = Console.ReadLine();

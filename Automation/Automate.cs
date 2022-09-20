@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -13,7 +14,7 @@ namespace OutreachAutomation.Automation
         public static void Script(WebDriver driver, string url)
         {
             var logs = new StringBuilder();
-            var logId = Guid.NewGuid().ToString();
+            var logId = Guid.NewGuid().ToString().ToUpper();
             var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
                 $"LOG-{logId}.txt");
 
@@ -25,7 +26,7 @@ namespace OutreachAutomation.Automation
                     Version = driver.Capabilities.GetCapability("browserVersion").ToString(),
                 };
 
-                logs.AppendLine($"Selenium WebDriver Bot Log - {logId}");
+                logs.AppendLine($"Selenium WebDriver Bot, Log - {logId}");
                 logs.AppendLine("---------------------------------------------");
                 logs.AppendLine($"BROWSER : {browser.Name}");
                 logs.AppendLine($"VERSION : {browser.Version}");
@@ -224,26 +225,49 @@ namespace OutreachAutomation.Automation
                     }
                 }
 
-                if (driver.Url.Contains("stream"))
+                // Click 'Nearby'
+                driver.ExecuteScript("nearbyV2()");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
+
+                // Click 'Nearby'
+                var ele9 = driver.FindElement(By.Id("nearbyListAdapter2"));
+
+                var x = ele9.ToString();
+                var o = driver.ExecuteScript("return nearbyListAdapter2");
+
+                if (ele9 != null)
                 {
-                    try
-                    {
-                        // Pull up hidden panel
-                        var ele9 = driver.FindElement(By.Id("chevronSlider"));
-                        ele9.Click();
-                        Thread.Sleep(2000);
-                        logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
-                    }
-                    catch (Exception)
-                    {
-                        throw new Exception("Could not connect to instance");
-                    }
+                    var ele10 = driver.FindElement(By.Id("activeNearbyId1"));
+                    Thread.Sleep(2000);
+                    ele10.Click();
+                }
+
+                Thread.Sleep(5000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
+
+                // Click 'Nearby'
+                driver.ExecuteScript("nearbyV2()");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
+
+                try
+                {
+                    // Pull up hidden panel
+                    var eleMenu = driver.FindElement(By.Id("chevronSlider"));
+                    eleMenu.Click();
+                    Thread.Sleep(2000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Could not connect to instance");
                 }
 
                 // Exit stream
-                var ele10 = driver.FindElement(By.Id("outreach-back-url"));
+                var eleExit = driver.FindElement(By.Id("outreach-back-url"));
                 Thread.Sleep(5000);
-                ele10.Click();
+                eleExit.Click();
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 
                 Console.WriteLine("SUCCESS");
@@ -251,7 +275,7 @@ namespace OutreachAutomation.Automation
                 logs.AppendLine("---------------------------------------------");
                 logs.AppendLine("RESULT : SUCCESS");
 
-                File.AppendAllText($"{filePath}.txt", logs.ToString());
+                File.AppendAllText(filePath, logs.ToString());
                 logs.Clear();
 
                 driver.Quit();
