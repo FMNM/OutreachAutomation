@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -168,8 +167,38 @@ namespace OutreachAutomation.Automation
 
                 // Tap to continue
                 Thread.Sleep(5000);
-                if (driver.Url.Contains("stream"))
+                try
                 {
+                    var ele7 = driver.FindElement(By.Id("main"));
+                    if (ele7 == null)
+                    {
+                        driver.Navigate().Refresh();
+                        Thread.Sleep(8000);
+
+                        ele7 = driver.FindElement(By.Id("main"));
+                        if (ele7 == null)
+                        {
+                            throw new Exception("Could not enter instance");
+                        }
+                    }
+
+                    ele7.Click();
+                    Thread.Sleep(2000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
+
+                    // Skip tutorial (if any)
+                    var ele8 = driver.FindElement(By.ClassName("text-cyan"));
+                    if (ele8 != null)
+                    {
+                        driver.ExecuteScript("hideAllTutorials()");
+                        Thread.Sleep(2000);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
+                    }
+                }
+                catch (Exception)
+                {
+                    driver.Navigate().Refresh();
+                    Thread.Sleep(6000);
                     try
                     {
                         var ele7 = driver.FindElement(By.Id("main"));
@@ -200,28 +229,7 @@ namespace OutreachAutomation.Automation
                     }
                     catch (Exception)
                     {
-                        try
-                        {
-                            Thread.Sleep(6000);
-
-                            var ele7 = driver.FindElement(By.Id("videoPlayOverlay"));
-                            ele7?.Click();
-                            Thread.Sleep(2000);
-                            logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
-
-                            // Skip tutorial (if any)
-                            var ele8 = driver.FindElement(By.ClassName("text-cyan"));
-                            if (ele8 != null)
-                            {
-                                driver.ExecuteScript("hideAllTutorials()");
-                                Thread.Sleep(2000);
-                                logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            throw new Exception("Could not enter instance properly");
-                        }
+                        throw new Exception("Could not enter instance properly");
                     }
                 }
 
@@ -229,40 +237,84 @@ namespace OutreachAutomation.Automation
                 driver.ExecuteScript("nearbyV2()");
                 Thread.Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
+                var eleNearby = driver.FindElement(By.Id("nearbyListAdapter2")) ?? throw new Exception("No nearby elements found");
 
-                // Click 'Nearby'
-                var ele9 = driver.FindElement(By.Id("nearbyListAdapter2"));
-
-                var x = ele9.ToString();
-                var o = driver.ExecuteScript("return nearbyListAdapter2");
-
-                if (ele9 != null)
-                {
-                    var ele10 = driver.FindElement(By.Id("activeNearbyId1"));
-                    Thread.Sleep(2000);
-                    ele10.Click();
-                }
-
-                Thread.Sleep(5000);
+                // Click second element
+                var eleNearbyData = driver.FindElement(By.Id("activeNearbyId1"));
+                Thread.Sleep(2000);
+                eleNearbyData.Click();
+                Thread.Sleep(6000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
 
-                // Click 'Nearby'
-                driver.ExecuteScript("nearbyV2()");
+                // Reset view
+                driver.ExecuteScript("resetView('true')");
                 Thread.Sleep(2000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
 
-                try
+                // Click 'Amenities'
+                driver.ExecuteScript("amenityV2()");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Amenities'");
+                var eleAmenities = driver.FindElement(By.Id("amenityListAdapter2")) ?? throw new Exception("No amenity elements found");
+
+                // Click second element
+                var eleAmenitiesData = driver.FindElement(By.Id("activeAmenity(1)"));
+                Thread.Sleep(2000);
+                eleAmenitiesData.Click();
+                if (eleAmenitiesData != null)
                 {
-                    // Pull up hidden panel
-                    var eleMenu = driver.FindElement(By.Id("chevronSlider"));
-                    eleMenu.Click();
                     Thread.Sleep(2000);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
+                    driver.ExecuteScript("goToCommonAmenity('AMN-05')");
                 }
-                catch (Exception)
-                {
-                    throw new Exception("Could not connect to instance");
-                }
+                Thread.Sleep(6000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
+
+                // Reset view
+                driver.ExecuteScript("resetView('true')");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
+
+                // Click 'Apartments'
+                driver.ExecuteScript("apartmentV2()");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Apartments'");
+                var eleApartments = driver.FindElement(By.Id("unitsListAdapter2")) ?? throw new Exception("No apartments found");
+
+                // Click second apartment
+                driver.ExecuteScript("goToLevel('XX02')");
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second apartment");
+                Thread.Sleep(10000);
+
+                // Detect apartment
+                var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu");
+
+                // Click on kitchen in dollhouse
+                var apartmentElement = driver.FindElement(By.Id("kitchen"));
+                apartmentElement.Click();
+                Thread.Sleep(4000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Click in dollhouse");
+
+                // Reset view
+                driver.ExecuteScript("resetView('true')");
+                Thread.Sleep(3000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
+
+                // Pull up slider menu
+                driver.ExecuteScript("slideHalfUpDollhouse()");
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up apartment slider menu");
+
+                // Exit apartment
+                driver.ExecuteScript("goToLevel('Exterior')");
+                Thread.Sleep(1500);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Exit to exterior view");
+
+                // Pull up slider menu
+                Thread.Sleep(15000);
+                var eleMenu = driver.FindElement(By.Id("chevronSlider"));
+                eleMenu.Click();
+                Thread.Sleep(2000);
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
 
                 // Exit stream
                 var eleExit = driver.FindElement(By.Id("outreach-back-url"));

@@ -20,19 +20,6 @@ namespace OutreachAutomation.Automation
             };
         }
 
-        // Microsoft Edge
-        private static EdgeDriver EdgeDriver()
-        {
-            new DriverManager().SetUpDriver(new EdgeConfig());
-
-            var op = new EdgeOptions();
-            op.AddArgument("--window-size=390,844");
-
-            var driver = new EdgeDriver(op);
-
-            return driver;
-        }
-
         // Google Chrome
         private static ChromeDriver ChromeDriver()
         {
@@ -40,8 +27,18 @@ namespace OutreachAutomation.Automation
 
             var op = new ChromeOptions();
             op.AddArgument("--window-size=390,844");
-
             var driver = new ChromeDriver(op);
+
+            return driver;
+        }
+
+        // Microsoft Edge
+        private static EdgeDriver EdgeDriver()
+        {
+            new DriverManager().SetUpDriver(new EdgeConfig());
+            var op = new EdgeOptions();
+            op.AddArgument("--window-size=390,844");
+            var driver = new EdgeDriver(op);
 
             return driver;
         }
@@ -50,11 +47,9 @@ namespace OutreachAutomation.Automation
         private static FirefoxDriver FirefoxDriver()
         {
             new DriverManager().SetUpDriver(new FirefoxConfig());
-
             var op = new FirefoxOptions();
             op.AddArgument("--width=390");
             op.AddArgument("--height=844");
-            
             var driver = new FirefoxDriver(op);
 
             return driver;
