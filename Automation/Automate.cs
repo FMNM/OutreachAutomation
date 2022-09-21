@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OutreachAutomation.Automation.DriverBrowser;
+using static System.Threading.Thread;
 
 namespace OutreachAutomation.Automation
 {
@@ -34,13 +35,10 @@ namespace OutreachAutomation.Automation
 
                 var retry = 0;
 
-                if (url == null)
-                {
-                    throw new Exception("No invitation link found");
-                }
+                if (url == null) throw new Exception("No invitation link found");
 
                 driver.Navigate().GoToUrl(url);
-                Thread.Sleep(3000);
+                Sleep(3000);
                 // Retries 3 times
                 while (driver.Url == null && retry < 3)
                 {
@@ -50,17 +48,14 @@ namespace OutreachAutomation.Automation
                     retry++;
                 }
 
-                if (driver.Url == null)
-                {
-                    throw new Exception("Could not connect");
-                }
+                if (driver.Url == null) throw new Exception("Could not connect");
 
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Connected to invitation link, {url}");
 
                 // Find the Swipe Up body
                 var ele = driver.FindElement(By.Id("upArrow"));
                 ele.Click();
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Swipe Up");
 
                 // Find Country code element
@@ -68,90 +63,95 @@ namespace OutreachAutomation.Automation
                 ele1.Click();
                 ele1.SendKeys("+880");
                 ele1.Click();
-                Thread.Sleep(1000);
+                Sleep(1000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Selected country code");
 
                 // Find Phone number input element
                 var ele2 = driver.FindElement(By.Name("phone_number"));
                 var number = Generator.NumberGenerator(10);
                 ele2.SendKeys(number);
-                Thread.Sleep(1000);
+                Sleep(1000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Entered dummy phone number, {number}");
 
                 // Click for Send OTP
                 var ele3 = driver.FindElement(By.ClassName("btn-sendotp"));
                 ele3.Click();
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Requested OTP");
 
                 // Enter Dummy OTP
                 var ele4 = driver.FindElement(By.Name("otp"));
                 ele4.SendKeys("123456");
-                Thread.Sleep(1000);
+                Sleep(1000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Entered dummy OTP, 123456");
 
                 // Verify OTP
                 var ele5 = driver.FindElement(By.ClassName("btn-sendotp"));
                 ele5.Click();
-                Thread.Sleep(3000);
+                Sleep(3000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to verify OTP");
 
-                // In the case that the dummy number is unregistered, the bot will register into the system
-                if (driver.Url == "https://outreach.ophs.io/register")
+                switch (driver.Url)
                 {
-                    logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
-                    var elementName = driver.FindElement(By.Name("name"));
-                    var dName = $"Ophs Selenium Bot - {new Random().Next(50000)}";
-                    elementName.SendKeys(dName);
-                    Thread.Sleep(1500);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
+                    // In the case that the dummy number is unregistered, the bot will register into the system
+                    case "https://outreach.ophs.io/register":
+                    {
+                        logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
+                        var elementName = driver.FindElement(By.Name("name"));
+                        var dName = $"Ophs Selenium Bot - {new Random().Next(50000)}";
+                        elementName.SendKeys(dName);
+                        Sleep(1500);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
 
-                    var elementAge = driver.FindElement(By.Name("age"));
-                    var dAge = new Random().Next(18, 100).ToString();
-                    elementAge.SendKeys(dAge);
-                    Thread.Sleep(1000);
+                        var elementAge = driver.FindElement(By.Name("age"));
+                        var dAge = new Random().Next(18, 100).ToString();
+                        elementAge.SendKeys(dAge);
+                        Sleep(1000);
 
-                    Thread.Sleep(1500);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
+                        Sleep(1500);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
 
-                    var elementGender = driver.FindElement(By.Id("dont_disclose"));
-                    elementGender.Click();
-                    Thread.Sleep(2000);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
+                        var elementGender = driver.FindElement(By.Id("dont_disclose"));
+                        elementGender.Click();
+                        Sleep(2000);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
 
-                    var elementNext = driver.FindElement(By.ClassName("btn-next"));
-                    elementNext.Click();
-                    Thread.Sleep(3000);
-                    logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
-                }
-                else
-                {
-                    logs.AppendLine($"[{DateTime.Now}] DETECTED Registered user");
+                        var elementNext = driver.FindElement(By.ClassName("btn-next"));
+                        elementNext.Click();
+                        Sleep(3000);
+                        logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
+                        break;
+                    }
+                    default:
+                        logs.AppendLine($"[{DateTime.Now}] DETECTED Registered user");
+                        break;
                 }
 
                 // Click Enter Experience
                 logs.AppendLine($"[{DateTime.Now}] REACHED Home Page");
-                Thread.Sleep(1500);
-                if (driver.Url == "https://outreach.ophs.io/home-buyer")
+                Sleep(1500);
+                switch (driver.Url)
                 {
-                    var ele6 = driver.FindElement(By.Id("enter-ex-1"));
-                    try
-                    {
+                    case "https://outreach.ophs.io/home-buyer":
+                        var ele6 = driver.FindElement(By.Id("enter-ex-1"));
+                        try
+                        {
+                            ele6.Click();
+                            Sleep(1500);
+                        }
+                        catch (Exception)
+                        {
+                            ele6 = driver.FindElement(By.Id("enter-ex-2"));
+                            Sleep(1500);
+                            ele6.Click();
+                        }
+
+                        break;
+                    default:
+                        ele6 = driver.FindElement(By.Id("enterExperience"));
+                        Sleep(1500);
                         ele6.Click();
-                        Thread.Sleep(1500);
-                    }
-                    catch (Exception)
-                    {
-                        ele6 = driver.FindElement(By.Id("enter-ex-2"));
-                        Thread.Sleep(1500);
-                        ele6.Click();
-                    }
-                }
-                else
-                {
-                    var ele6 = driver.FindElement(By.Id("enterExperience"));
-                    Thread.Sleep(1500);
-                    ele6.Click();
+                        break;
                 }
 
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to Enter Experience");
@@ -166,14 +166,14 @@ namespace OutreachAutomation.Automation
                 }
 
                 // Tap to continue
-                Thread.Sleep(5000);
+                Sleep(5000);
                 try
                 {
                     var ele7 = driver.FindElement(By.Id("main"));
                     if (ele7 == null)
                     {
                         driver.Navigate().Refresh();
-                        Thread.Sleep(8000);
+                        Sleep(8000);
 
                         ele7 = driver.FindElement(By.Id("main"));
                         if (ele7 == null)
@@ -183,7 +183,7 @@ namespace OutreachAutomation.Automation
                     }
 
                     ele7.Click();
-                    Thread.Sleep(2000);
+                    Sleep(2000);
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
 
                     // Skip tutorial (if any)
@@ -191,21 +191,22 @@ namespace OutreachAutomation.Automation
                     if (ele8 != null)
                     {
                         driver.ExecuteScript("hideAllTutorials()");
-                        Thread.Sleep(2000);
+                        Sleep(2000);
                         logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
                     }
                 }
                 catch (Exception)
                 {
                     driver.Navigate().Refresh();
-                    Thread.Sleep(6000);
+
+                    Sleep(6000);
                     try
                     {
                         var ele7 = driver.FindElement(By.Id("main"));
                         if (ele7 == null)
                         {
                             driver.Navigate().Refresh();
-                            Thread.Sleep(8000);
+                            Sleep(8000);
 
                             ele7 = driver.FindElement(By.Id("main"));
                             if (ele7 == null)
@@ -215,7 +216,7 @@ namespace OutreachAutomation.Automation
                         }
 
                         ele7.Click();
-                        Thread.Sleep(2000);
+                        Sleep(2000);
                         logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
 
                         // Skip tutorial (if any)
@@ -223,102 +224,127 @@ namespace OutreachAutomation.Automation
                         if (ele8 != null)
                         {
                             driver.ExecuteScript("hideAllTutorials()");
-                            Thread.Sleep(2000);
+                            Sleep(2000);
                             logs.AppendLine($"[{DateTime.Now}] ACTION - Skip tutorial");
                         }
                     }
                     catch (Exception)
                     {
-                        throw new Exception("Could not enter instance properly");
+                        throw new Exception("Failed to connect to stream");
                     }
                 }
 
                 // Click 'Nearby'
                 driver.ExecuteScript("nearbyV2()");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
-                var eleNearby = driver.FindElement(By.Id("nearbyListAdapter2")) ?? throw new Exception("No nearby elements found");
+                var eleNearby = driver.FindElement(By.Id("nearbyListAdapter2")) ??
+                                throw new Exception("No nearby elements found");
+
+                var nearbyNames = eleNearby.Text.Split("\r\n")
+                    .Where(x => !x.ToLower().Contains("minute"))
+                    .ToHashSet()
+                    .ToList();
+                logs.AppendLine($"Detected 'Nearby' elements :{string.Join(", ", nearbyNames)}");
 
                 // Click second element
                 var eleNearbyData = driver.FindElement(By.Id("activeNearbyId1"));
-                Thread.Sleep(2000);
+                Sleep(2000);
                 eleNearbyData.Click();
-                Thread.Sleep(6000);
+                Sleep(6000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
 
                 // Reset view
                 driver.ExecuteScript("resetView('true')");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
 
                 // Click 'Amenities'
                 driver.ExecuteScript("amenityV2()");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Amenities'");
-                var eleAmenities = driver.FindElement(By.Id("amenityListAdapter2")) ?? throw new Exception("No amenity elements found");
+                var eleAmenities = driver.FindElement(By.Id("amenityListAdapter2")) ??
+                                   throw new Exception("No amenity elements found");
+
+                var amenityNames = eleAmenities.Text.Split("\r\n")
+                    .Where(x => !x.ToLower().Contains("take") && !x.ToLower().Contains("tap"))
+                    .ToHashSet()
+                    .Where((x, i) => i % 2 == 0).ToList();
+                logs.AppendLine($"[{DateTime.Now}] Detected 'Amenity' elements :{string.Join(", ", amenityNames)}");
 
                 // Click second element
                 var eleAmenitiesData = driver.FindElement(By.Id("activeAmenity(1)"));
-                Thread.Sleep(2000);
                 eleAmenitiesData.Click();
-                if (eleAmenitiesData != null)
-                {
-                    Thread.Sleep(2000);
-                    driver.ExecuteScript("goToCommonAmenity('AMN-05')");
-                }
-                Thread.Sleep(6000);
+                Sleep(2000);
+                driver.ExecuteScript("goToCommonAmenity('AMN-05')");
+                Sleep(6000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
 
                 // Reset view
                 driver.ExecuteScript("resetView('true')");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
 
                 // Click 'Apartments'
                 driver.ExecuteScript("apartmentV2()");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Apartments'");
-                var eleApartments = driver.FindElement(By.Id("unitsListAdapter2")) ?? throw new Exception("No apartments found");
+                var eleApartments = driver.FindElement(By.Id("unitsListAdapter2")) ??
+                                    throw new Exception("No apartments found");
+
+                var apartmentNames = eleApartments.Text.Split("\r\n")
+                    .Where(x => !x.ToLower().Contains("|"))
+                    .ToHashSet()
+                    .ToList();
+                logs.AppendLine($"[{DateTime.Now}] Detected 'Apartment' elements :{string.Join(", ", apartmentNames)}");
 
                 // Click second apartment
                 driver.ExecuteScript("goToLevel('XX02')");
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second apartment");
-                Thread.Sleep(10000);
+                Sleep(10000);
 
                 // Detect apartment
-                var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu");
+                var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ??
+                                    throw new Exception("Could not load apartment menu");
+
+                var apartmentRooms = apartmentMenu.Text.Split("\r\n")
+                    .Where(x => !x.ToLower().Contains("dimensions") && !x.ToLower().Contains("size"))
+                    .ToHashSet()
+                    .ToList();
+                logs.AppendLine(
+                    $"[{DateTime.Now}] Detected 'Apartment room' elements :{string.Join(", ", apartmentRooms)}");
 
                 // Click on kitchen in dollhouse
                 var apartmentElement = driver.FindElement(By.Id("kitchen"));
                 apartmentElement.Click();
-                Thread.Sleep(4000);
+                Sleep(4000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click in dollhouse");
 
                 // Reset view
                 driver.ExecuteScript("resetView('true')");
-                Thread.Sleep(3000);
+                Sleep(3000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
 
                 // Pull up slider menu
                 driver.ExecuteScript("slideHalfUpDollhouse()");
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up apartment slider menu");
 
                 // Exit apartment
                 driver.ExecuteScript("goToLevel('Exterior')");
-                Thread.Sleep(1500);
+                Sleep(1500);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Exit to exterior view");
 
                 // Pull up slider menu
-                Thread.Sleep(15000);
+                Sleep(15000);
                 var eleMenu = driver.FindElement(By.Id("chevronSlider"));
                 eleMenu.Click();
-                Thread.Sleep(2000);
+                Sleep(2000);
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up slider menu");
 
                 // Exit stream
                 var eleExit = driver.FindElement(By.Id("outreach-back-url"));
-                Thread.Sleep(5000);
+                Sleep(2000);
                 eleExit.Click();
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 

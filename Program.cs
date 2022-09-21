@@ -13,10 +13,10 @@ namespace OutreachAutomation
             try
             {
                 Console.WriteLine("Specify browser? (y/n)");
-                var isBrowserSpecific = Console.ReadLine() ?? "n";
+                var isBrowserSelected = Console.ReadLine() == "y";
 
                 var pickedBrowser = string.Empty;
-                if (isBrowserSpecific?.ToLower() == "y")
+                if (isBrowserSelected)
                 {
                     Console.WriteLine(
                         "Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
@@ -25,10 +25,7 @@ namespace OutreachAutomation
 
                 Console.WriteLine("Enter number of threads: ");
                 var instances = Convert.ToInt32(Console.ReadLine());
-                if (instances == 0)
-                {
-                    instances = 1;
-                }
+                if (instances == 0) instances = 1;
 
                 Console.WriteLine("Have an invitation link already? (y/n)");
                 var isInvite = Console.ReadLine();
@@ -40,15 +37,12 @@ namespace OutreachAutomation
                 {
                     Console.WriteLine("Enter invitation link: ");
                     var input = Console.ReadLine();
-                    if (input != null)
-                    {
-                        link = input;
-                    }
+                    if (input != null) link = input;
                 }
 
                 while (instances > 0)
                 {
-                    threads.Add(new Thread(_ => { StartInstance(link, isBrowserSpecific, pickedBrowser); }));
+                    threads.Add(new Thread(_ => { StartInstance(link, isBrowserSelected, pickedBrowser); }));
                     instances--;
                 }
 
@@ -64,11 +58,11 @@ namespace OutreachAutomation
             }
         }
 
-        private static void StartInstance(string url, string isSpecified, string browserDriver)
+        private static void StartInstance(string url, bool isSpecified, string browserDriver)
         {
             var random = new Random();
 
-            if (isSpecified.ToLower() == "y")
+            if (isSpecified)
             {
                 var driver = browserDriver switch
                 {
