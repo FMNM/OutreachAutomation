@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using OutreachAutomation.Automation.DriverBrowser;
+using OutreachAutomation.Automation.DTO;
 using static System.Threading.Thread;
 
 namespace OutreachAutomation.Automation
 {
     public static class Automate
     {
-        public static void Script(WebDriver driver, string url)
+        public static void Script(WebDriver driver, string url, List<AmenityMap> amenityMaps)
         {
             var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString().ToUpper();
@@ -245,14 +246,17 @@ namespace OutreachAutomation.Automation
                     .Where(x => !x.ToLower().Contains("minute"))
                     .ToHashSet()
                     .ToList();
-                logs.AppendLine($"Detected 'Nearby' elements :{string.Join(", ", nearbyNames)}");
 
-                // Click second element
-                var eleNearbyData = driver.FindElement(By.Id("activeNearbyId1"));
-                Sleep(2000);
-                eleNearbyData.Click();
-                Sleep(6000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
+                // Click on nearby elements
+                for (var i = 0; i < nearbyNames.Count; i++)
+                {
+                    var eleNearbyData =
+                        driver.FindElement(By.Id($"activeNearbyId{i}"));
+                    Sleep(2000);
+                    eleNearbyData.Click();
+                    Sleep(6000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on '{nearbyNames[i]}'");
+                }
 
                 // Reset view
                 driver.ExecuteScript("resetView('true')");
@@ -269,16 +273,20 @@ namespace OutreachAutomation.Automation
                 var amenityNames = eleAmenities.Text.Split("\r\n")
                     .Where(x => !x.ToLower().Contains("take") && !x.ToLower().Contains("tap"))
                     .ToHashSet()
-                    .Where((x, i) => i % 2 == 0).ToList();
-                logs.AppendLine($"[{DateTime.Now}] Detected 'Amenity' elements :{string.Join(", ", amenityNames)}");
-
-                // Click second element
-                var eleAmenitiesData = driver.FindElement(By.Id("activeAmenity(1)"));
-                eleAmenitiesData.Click();
-                Sleep(2000);
-                driver.ExecuteScript("goToCommonAmenity('AMN-05')");
-                Sleep(6000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second element");
+                    .Where((x, i) => i % 2 == 0)
+                    .ToList();
+                
+                // Parse by all amenities
+                foreach (var amenity in amenityMaps)
+                {
+                    if (!amenityNames.Contains(amenity.Title)) continue;
+                    var eleAmenitiesData = driver.FindElement(By.Id($"{amenity.HtmlId}"));
+                    eleAmenitiesData.Click();
+                    Sleep(2000);
+                    driver.ExecuteScript($"goToCommonAmenity('{amenity.AmenityId}')");
+                    Sleep(6000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on amenity '{amenity.Title}'");
+                }
 
                 // Reset view
                 driver.ExecuteScript("resetView('true')");
@@ -296,39 +304,34 @@ namespace OutreachAutomation.Automation
                     .Where(x => !x.ToLower().Contains("|"))
                     .ToHashSet()
                     .ToList();
-                logs.AppendLine($"[{DateTime.Now}] Detected 'Apartment' elements :{string.Join(", ", apartmentNames)}");
 
-                // Click second apartment
-                driver.ExecuteScript("goToLevel('XX02')");
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on second apartment");
-                Sleep(10000);
+                for (var i = 1; i <= apartmentNames.Count; i++)
+                {
+                    // Click on apartment
+                    driver.ExecuteScript($"goToLevel('XX{i:D2}')");
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on apartment, {apartmentNames[i - 1]} ");
+                    Sleep(12000);
 
-                // Detect apartment
-                var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ??
-                                    throw new Exception("Could not load apartment menu");
+                    // Detect apartment menu
+                    var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ??
+                                        throw new Exception("Could not load apartment menu");
 
-                var apartmentRooms = apartmentMenu.Text.Split("\r\n")
-                    .Where(x => !x.ToLower().Contains("dimensions") && !x.ToLower().Contains("size"))
-                    .ToHashSet()
-                    .ToList();
-                logs.AppendLine(
-                    $"[{DateTime.Now}] Detected 'Apartment room' elements :{string.Join(", ", apartmentRooms)}");
+                    // Click on kitchen in dollhouse
+                    var apartmentElement = driver.FindElement(By.Id("kitchen"));
+                    apartmentElement.Click();
+                    Sleep(4000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Click on 'Kitchen'");
 
-                // Click on kitchen in dollhouse
-                var apartmentElement = driver.FindElement(By.Id("kitchen"));
-                apartmentElement.Click();
-                Sleep(4000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Click in dollhouse");
+                    // Reset view
+                    driver.ExecuteScript("resetView('true')");
+                    Sleep(3000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
 
-                // Reset view
-                driver.ExecuteScript("resetView('true')");
-                Sleep(3000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
-
-                // Pull up slider menu
-                driver.ExecuteScript("slideHalfUpDollhouse()");
-                Sleep(2000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up apartment slider menu");
+                    // Pull up slider menu
+                    driver.ExecuteScript("slideHalfUpDollhouse()");
+                    Sleep(2000);
+                    logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up apartment slider menu");
+                }
 
                 // Exit apartment
                 driver.ExecuteScript("goToLevel('Exterior')");
@@ -349,6 +352,7 @@ namespace OutreachAutomation.Automation
                 logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
 
                 Console.WriteLine("SUCCESS");
+
                 logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
                 logs.AppendLine("---------------------------------------------");
                 logs.AppendLine("RESULT : SUCCESS");

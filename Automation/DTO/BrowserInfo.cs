@@ -1,4 +1,4 @@
-namespace OutreachAutomation.Automation.DriverBrowser
+namespace OutreachAutomation.Automation.DTO
 {
     public class BrowserInfo
     {

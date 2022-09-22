@@ -1,0 +1,72 @@
+[
+  {
+    "HtmlId": "activeAmenity(0)",
+    "title": "Grand Entrance Lobby",
+    "AmenityId": "AMN-01"
+  },
+  {
+    "HtmlId": "activeAmenity(1)",
+    "Title": "Infinity Pool",
+    "AmenityId": "AMN-05"
+  },
+  {
+    "HtmlId": "activeAmenity(2)",
+    "title": "Outdoor Badminton Court",
+    "AmenityId": "AMN-03"
+  },
+  {
+    "HtmlId": "activeAmenity(3)",
+    "title": "Games Room",
+    "AmenityId": "AMN-08"
+  },
+  {
+    "HtmlId": "activeAmenity(4)",
+    "title": "Sky Jogging Track",
+    "AmenityId": "AMN-12"
+  },
+  {
+    "HtmlId": "activeAmenity(5)",
+    "title": "Landscaped Gardens",
+    "AmenityId": "AMN-04"
+  },
+  {
+    "HtmlId": "activeAmenity(6)",
+    "title": "The Cafe",
+    "AmenityId": "AMN-06"
+  },
+  {
+    "HtmlId": "activeAmenity(7)",
+    "title": "Gym",
+    "AmenityId": "AMN-07"
+  },
+  {
+    "HtmlId": "activeAmenity(8)",
+    "title": "Banquet Hall",
+    "AmenityId": "AMN-09"
+  },
+  {
+    "HtmlId": "activeAmenity(9)",
+    "title": "Kids Play Area",
+    "AmenityId": "AMN-11"
+  },
+  {
+    "HtmlId": "activeAmenity(10)",
+    "title": "Bar and Lounge",
+    "AmenityId": "AMN-13"
+  },
+  {
+    "HtmlId": "activeAmenity(11)",
+    "title": "Barbeque",
+    "AmenityId": "AMN-14"
+  },
+  {
+    "HtmlId": "activeAmenity(12)",
+    "title": "Outdoor Theater",
+    "AmenityId": "AMN-15"
+  },
+  {
+    "HtmlId": "activeAmenity(13)",
+    "title": "Yoga and Activity Deck",
+    "AmenityId": "AMN-17"
+  }
+]

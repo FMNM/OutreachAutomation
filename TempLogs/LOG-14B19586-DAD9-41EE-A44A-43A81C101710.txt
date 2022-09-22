@@ -1,0 +1,77 @@
+Selenium WebDriver Bot, Log - 14B19586-DAD9-41EE-A44A-43A81C101710
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.42
+---------------------------------------------
+[22-Sep-22 4:35:45 PM] STARTING AUTOMATION
+[22-Sep-22 4:35:49 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[22-Sep-22 4:35:51 PM] ACTION - Swipe Up
+[22-Sep-22 4:35:52 PM] ACTION - Selected country code
+[22-Sep-22 4:35:53 PM] ACTION - Entered dummy phone number, 9908247272
+[22-Sep-22 4:35:55 PM] ACTION - Requested OTP
+[22-Sep-22 4:35:56 PM] ACTION - Entered dummy OTP, 123456
+[22-Sep-22 4:35:59 PM] ACTION - Click button to verify OTP
+[22-Sep-22 4:35:59 PM] DETECTED Unregistered user. PROCEEDING Registration
+[22-Sep-22 4:36:01 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 2335
+[22-Sep-22 4:36:04 PM] ACTION - Enter dummy age, 20
+[22-Sep-22 4:36:06 PM] ACTION - Selected undisclosed gender
+[22-Sep-22 4:36:09 PM] ACTION - Click button to register
+[22-Sep-22 4:36:09 PM] REACHED Home Page
+[22-Sep-22 4:36:12 PM] ACTION - Click to Enter Experience
+[22-Sep-22 4:37:12 PM] ACTION - Click to enter
+[22-Sep-22 4:37:14 PM] ACTION - Skip tutorial
+[22-Sep-22 4:37:16 PM] ACTION - Clicked on 'Nearby'
+[22-Sep-22 4:37:24 PM] ACTION - Clicked on 'Hinduja Hospital'
+[22-Sep-22 4:37:32 PM] ACTION - Clicked on 'Sitaladevi Metro Station'
+[22-Sep-22 4:37:40 PM] ACTION - Clicked on 'Bombay Scottish School'
+[22-Sep-22 4:37:48 PM] ACTION - Clicked on 'LJ Road'
+[22-Sep-22 4:37:56 PM] ACTION - Clicked on 'Sitaladev Temple Road'
+[22-Sep-22 4:38:04 PM] ACTION - Clicked on 'Cadel Road'
+[22-Sep-22 4:38:06 PM] ACTION - Reset view
+[22-Sep-22 4:38:08 PM] ACTION - Clicked on 'Amenities'
+[22-Sep-22 4:38:16 PM] ACTION - Clicked on amenity 'Grand Entrance Lobby'
+[22-Sep-22 4:38:24 PM] ACTION - Clicked on amenity 'Infinity Pool'
+[22-Sep-22 4:38:32 PM] ACTION - Clicked on amenity 'Outdoor Badminton Court'
+[22-Sep-22 4:38:40 PM] ACTION - Clicked on amenity 'Games Room'
+[22-Sep-22 4:38:48 PM] ACTION - Clicked on amenity 'Sky Jogging Track'
+[22-Sep-22 4:38:56 PM] ACTION - Clicked on amenity 'Landscaped Gardens'
+[22-Sep-22 4:39:04 PM] ACTION - Clicked on amenity 'The Cafe'
+[22-Sep-22 4:39:12 PM] ACTION - Clicked on amenity 'Gym'
+[22-Sep-22 4:39:20 PM] ACTION - Clicked on amenity 'Banquet Hall'
+[22-Sep-22 4:39:28 PM] ACTION - Clicked on amenity 'Kids Play Area'
+[22-Sep-22 4:39:37 PM] ACTION - Clicked on amenity 'Bar and Lounge'
+[22-Sep-22 4:39:45 PM] ACTION - Clicked on amenity 'Barbeque'
+[22-Sep-22 4:39:53 PM] ACTION - Clicked on amenity 'Outdoor Theater'
+[22-Sep-22 4:40:01 PM] ACTION - Clicked on amenity 'Yoga and Activity Deck'
+[22-Sep-22 4:40:03 PM] ACTION - Reset view
+[22-Sep-22 4:40:05 PM] ACTION - Clicked on 'Apartments'
+[22-Sep-22 4:40:05 PM] ACTION - Clicked on apartment, 1BHK 
+[22-Sep-22 4:40:21 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:40:24 PM] ACTION - Reset view
+[22-Sep-22 4:40:26 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:40:26 PM] ACTION - Clicked on apartment, 2BHK-type-A 
+[22-Sep-22 4:40:42 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:40:45 PM] ACTION - Reset view
+[22-Sep-22 4:40:47 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:40:47 PM] ACTION - Clicked on apartment, 2BHK-type-B 
+[22-Sep-22 4:41:03 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:41:06 PM] ACTION - Reset view
+[22-Sep-22 4:41:08 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:41:08 PM] ACTION - Clicked on apartment, 2.5BHK 
+[22-Sep-22 4:41:24 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:41:27 PM] ACTION - Reset view
+[22-Sep-22 4:41:29 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:41:29 PM] ACTION - Clicked on apartment, 3BHK 
+[22-Sep-22 4:41:45 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:41:48 PM] ACTION - Reset view
+[22-Sep-22 4:41:50 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:41:50 PM] ACTION - Clicked on apartment, 4BHK 
+[22-Sep-22 4:42:06 PM] ACTION - Click on 'Kitchen'
+[22-Sep-22 4:42:09 PM] ACTION - Reset view
+[22-Sep-22 4:42:11 PM] ACTION - Pull up apartment slider menu
+[22-Sep-22 4:42:13 PM] ACTION - Exit to exterior view
+[22-Sep-22 4:42:30 PM] ACTION - Pull up slider menu
+[22-Sep-22 4:42:32 PM] ACTION - Click to exit experience
+[22-Sep-22 4:42:32 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : SUCCESS
