@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using OutreachAutomation.Automation.DTO;
+using OutreachAutomation.SeleniumBot.DTO;
 
-namespace OutreachAutomation.Automation
+namespace OutreachAutomation.SeleniumBot
 {
     public static class Generator
     {
+        // Random number generator
         public static string NumberGenerator(int count)
         {
             const string digits = "0123456789";
@@ -17,6 +18,7 @@ namespace OutreachAutomation.Automation
             return new string(Enumerable.Repeat(digits, count).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        // Get amenity info from JSON
         public static List<AmenityMap> GetAmenityMappings()
         {
             var filePath = Path.Combine(Environment.CurrentDirectory, "Config JSONs/AmenityMaps.json");

@@ -5,7 +5,7 @@ using OpenQA.Selenium.Firefox;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
-namespace OutreachAutomation.Automation
+namespace OutreachAutomation.SeleniumBot
 {
     public static class BrowserDrivers
     {

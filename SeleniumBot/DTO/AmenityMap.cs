@@ -1,4 +1,4 @@
-namespace OutreachAutomation.Automation.DTO
+namespace OutreachAutomation.SeleniumBot.DTO
 {
     public class AmenityMap
     {

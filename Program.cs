@@ -1,3 +1,5 @@
+using OutreachAutomation.SeleniumBot;
+
 namespace OutreachAutomation
 {
     public static class Program

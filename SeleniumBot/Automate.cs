@@ -5,19 +5,21 @@ using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using OutreachAutomation.Automation.DTO;
+using OutreachAutomation.SeleniumBot.DTO;
 using static System.Threading.Thread;
 
-namespace OutreachAutomation.Automation
+namespace OutreachAutomation.SeleniumBot
 {
     public static class Automate
     {
-        public static void Script(WebDriver driver, string url, List<AmenityMap> amenityMaps)
+        public static void Script(WebDriver driver, string url, bool isRandom, List<AmenityMap> amenityMaps)
         {
             var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString().ToUpper();
             var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
                 $"LOG-{logId}.txt");
+
+            var retry = 0;
 
             try
             {
@@ -34,8 +36,6 @@ namespace OutreachAutomation.Automation
                 logs.AppendLine("---------------------------------------------");
                 logs.AppendLine($"[{DateTime.Now}] STARTING AUTOMATION");
 
-                var retry = 0;
-
                 if (url == null) throw new Exception("No invitation link found");
 
                 driver.Navigate().GoToUrl(url);
@@ -45,6 +45,7 @@ namespace OutreachAutomation.Automation
                 {
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Connection failed to invitation link, {url}");
                     driver.Navigate().Refresh();
+                    Sleep(3000);
                     logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
                     retry++;
                 }
@@ -275,7 +276,7 @@ namespace OutreachAutomation.Automation
                     .ToHashSet()
                     .Where((x, i) => i % 2 == 0)
                     .ToList();
-                
+
                 // Parse by all amenities
                 foreach (var amenity in amenityMaps)
                 {
