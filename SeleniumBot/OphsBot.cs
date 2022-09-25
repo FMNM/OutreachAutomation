@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using OutreachAutomation.SeleniumBot.DTO;
+using OutreachAutomation.SeleniumBot.DTO.Mappings;
 
 namespace OutreachAutomation.SeleniumBot
 {
@@ -11,8 +11,7 @@ namespace OutreachAutomation.SeleniumBot
         {
             try
             {
-                Console.WriteLine(
-                    "Type of instances (a/b): \n(a) Full \n(b) Random");
+                Console.WriteLine("Type of instances (a/b): \n(a) Full \n(b) Random");
                 var isRandomInstance = Console.ReadLine() ?? "a";
 
                 Console.WriteLine("Specify browser? (y/n)");
@@ -21,8 +20,7 @@ namespace OutreachAutomation.SeleniumBot
                 var pickedBrowser = string.Empty;
                 if (isBrowserSelected)
                 {
-                    Console.WriteLine(
-                        "Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
+                    Console.WriteLine("Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
                     pickedBrowser = Console.ReadLine() ?? "a";
                 }
 
@@ -43,15 +41,11 @@ namespace OutreachAutomation.SeleniumBot
                     if (input != null) link = input;
                 }
 
-                var amenityMaps = Generator.GetAmenityMappings() ?? throw new Exception("No amenity maps found");
+                var mappings = Generator.GetMappings() ?? throw new Exception("Could not get JSON maps");
 
                 while (instances > 0)
                 {
-                    threads.Add(
-                        new Thread(_ =>
-                        {
-                            StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, amenityMaps);
-                        }));
+                    threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
                     instances--;
                 }
 
@@ -67,8 +61,7 @@ namespace OutreachAutomation.SeleniumBot
             }
         }
 
-        private static void StartInstance(string url, bool isSpecified, string browserDriver, string isRandom,
-            List<AmenityMap> amenityMap)
+        private static void StartInstance(string url, bool isSpecified, string browserDriver, string isRandom, MappingsDto mappings)
         {
             var isRandomInstance = isRandom == "b";
 
@@ -82,12 +75,12 @@ namespace OutreachAutomation.SeleniumBot
                     "b" => BrowserDrivers.GetDriver(1),
                     _ => BrowserDrivers.GetDriver(2)
                 };
-                Automate.Script(driver, url, isRandomInstance, amenityMap);
+                Automate.Script(driver, url, isRandomInstance, mappings);
             }
             else
             {
                 var driver = BrowserDrivers.GetDriver(random.Next(0, 3));
-                Automate.Script(driver, url, isRandomInstance, amenityMap);
+                Automate.Script(driver, url, isRandomInstance, mappings);
             }
         }
     }

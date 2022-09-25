@@ -1,29 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using OutreachAutomation.SeleniumBot.DTO;
+using OutreachAutomation.SeleniumBot.DTO.Browsers;
+using OutreachAutomation.SeleniumBot.DTO.Mappings;
 using static System.Threading.Thread;
 
 namespace OutreachAutomation.SeleniumBot
 {
     public static class Automate
     {
-        public static void Script(WebDriver driver, string url, bool isRandom, List<AmenityMap> amenityMaps)
+        public static void Script(WebDriver driver, string url, bool isRandom, MappingsDto mappings)
         {
             var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString().ToUpper();
-            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
-                $"LOG-{logId}.txt");
+            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(), $"LOG-{logId}.txt");
 
             var retry = 0;
 
+            var random = new Random();
             try
             {
-                var browser = new BrowserInfo
+                var browser = new BrowserInfoDto
                 {
                     Name = driver.Capabilities.GetCapability("browserName").ToString(),
                     Version = driver.Capabilities.GetCapability("browserVersion").ToString(),
@@ -70,10 +70,16 @@ namespace OutreachAutomation.SeleniumBot
 
                 // Find Phone number input element
                 var ele2 = driver.FindElement(By.Name("phone_number"));
-                var number = Generator.NumberGenerator(10);
+
+                var number = Generator.GetPhoneNumber();
+                var SavedNumber = mappings.Logins[random.Next(mappings.Logins.Count)].phone_number;
+                if (random.Next(0, 2) == 1)
+                {
+                    number = SavedNumber;
+                }
                 ele2.SendKeys(number);
                 Sleep(1000);
-                logs.AppendLine($"[{DateTime.Now}] ACTION - Entered dummy phone number, {number}");
+                logs.AppendLine($"[{DateTime.Now}] ACTION - Entered phone number, {number}");
 
                 // Click for Send OTP
                 var ele3 = driver.FindElement(By.ClassName("btn-sendotp"));
@@ -97,33 +103,33 @@ namespace OutreachAutomation.SeleniumBot
                 {
                     // In the case that the dummy number is unregistered, the bot will register into the system
                     case "https://outreach.ophs.io/register":
-                    {
-                        logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
-                        var elementName = driver.FindElement(By.Name("name"));
-                        var dName = $"Ophs Selenium Bot - {new Random().Next(50000)}";
-                        elementName.SendKeys(dName);
-                        Sleep(1500);
-                        logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
+                        {
+                            logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
+                            var elementName = driver.FindElement(By.Name("name"));
+                            var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
+                            elementName.SendKeys(dName);
+                            Sleep(1500);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
 
-                        var elementAge = driver.FindElement(By.Name("age"));
-                        var dAge = new Random().Next(18, 100).ToString();
-                        elementAge.SendKeys(dAge);
-                        Sleep(1000);
+                            var elementAge = driver.FindElement(By.Name("age"));
+                            var dAge = random.Next(18, 100).ToString();
+                            elementAge.SendKeys(dAge);
+                            Sleep(1000);
 
-                        Sleep(1500);
-                        logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
+                            Sleep(1500);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
 
-                        var elementGender = driver.FindElement(By.Id("dont_disclose"));
-                        elementGender.Click();
-                        Sleep(2000);
-                        logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
+                            var elementGender = driver.FindElement(By.Id("dont_disclose"));
+                            elementGender.Click();
+                            Sleep(2000);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
 
-                        var elementNext = driver.FindElement(By.ClassName("btn-next"));
-                        elementNext.Click();
-                        Sleep(3000);
-                        logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
-                        break;
-                    }
+                            var elementNext = driver.FindElement(By.ClassName("btn-next"));
+                            elementNext.Click();
+                            Sleep(3000);
+                            logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
+                            break;
+                        }
                     default:
                         logs.AppendLine($"[{DateTime.Now}] DETECTED Registered user");
                         break;
@@ -278,7 +284,7 @@ namespace OutreachAutomation.SeleniumBot
                     .ToList();
 
                 // Parse by all amenities
-                foreach (var amenity in amenityMaps)
+                foreach (var amenity in mappings.Amenities)
                 {
                     if (!amenityNames.Contains(amenity.Title)) continue;
                     var eleAmenitiesData = driver.FindElement(By.Id($"{amenity.HtmlId}"));
