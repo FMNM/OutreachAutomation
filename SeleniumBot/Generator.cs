@@ -2,13 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using OutreachAutomation.SeleniumBot.DTO.Mappings;
+using OutreachAutomation.SeleniumBot.DTO.SessionLogs;
 
 namespace OutreachAutomation.SeleniumBot
 {
     public static class Generator
     {
+        // Generate log info
+        public static LogDto GenerateLogs()
+        {
+            var logs = new StringBuilder();
+            var logId = Guid.NewGuid().ToString().ToUpper();
+            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(), $"LOG-{logId}.txt");
+
+            return new LogDto()
+            {
+                FilePath = filePath,
+                LogId = logId,
+                Logs = logs
+            };
+        }
+
         // Random number generator
         public static string GetPhoneNumber()
         {
