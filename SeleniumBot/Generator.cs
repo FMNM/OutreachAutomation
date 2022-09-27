@@ -41,7 +41,8 @@ namespace OutreachAutomation.SeleniumBot
             var map = new MappingsDto()
             {
                 Amenities = GetAmenityMappings(),
-                Logins = GetLoginMappings()
+                Logins = GetLoginMappings(),
+                Apartments = GetApartmentMappings()
             };
 
             return map;
@@ -51,7 +52,7 @@ namespace OutreachAutomation.SeleniumBot
         // Get amenity info from JSON
         private static List<AmenityDto> GetAmenityMappings()
         {
-            var filePath = Path.Combine(Environment.CurrentDirectory, "Assets/JSONs/AmenityMaps.json");
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Assets/JSONs/AmenityData.json");
             var file = File.ReadAllText(filePath);
 
             var map = JsonConvert.DeserializeObject<List<AmenityDto>>(file);
@@ -66,6 +67,17 @@ namespace OutreachAutomation.SeleniumBot
             var file = File.ReadAllText(filePath);
 
             var map = JsonConvert.DeserializeObject<List<UserDto>>(file);
+
+            return map;
+        }
+        
+        // Get apartment info from JSON
+        private static List<ApartmentDto> GetApartmentMappings()
+        {
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Assets/JSONs/ApartmentData.json");
+            var file = File.ReadAllText(filePath);
+
+            var map = JsonConvert.DeserializeObject<List<ApartmentDto>>(file);
 
             return map;
         }

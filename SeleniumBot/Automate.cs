@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using OutreachAutomation.SeleniumBot.DTO.Browsers;
 using OutreachAutomation.SeleniumBot.DTO.Mappings;
@@ -12,16 +13,15 @@ namespace OutreachAutomation.SeleniumBot
 {
     public static class Automate
     {
-        public static void Script(WebDriver driver, string url, bool isRandom, MappingsDto mappings)
+        public static void Script(string url, WebDriver driver, bool isRandom, MappingsDto mappings)
         {
             var sessionLog = Generator.GenerateLogs();
-
             try
             {
                 var browser = new BrowserInfoDto
                 {
                     Name = driver.Capabilities.GetCapability("browserName").ToString(),
-                    Version = driver.Capabilities.GetCapability("browserVersion").ToString(),
+                    Version = driver.Capabilities.GetCapability("browserVersion").ToString()
                 };
 
                 sessionLog.Logs.AppendLine($"Selenium WebDriver Bot, Log - {sessionLog.LogId}");
@@ -33,7 +33,7 @@ namespace OutreachAutomation.SeleniumBot
 
                 if (url == null) throw new Exception("No invitation link found");
 
-                WebSegment(driver, url, mappings, sessionLog);
+                WebSegment(url, driver, mappings, sessionLog);
 
                 StreamSegment(driver, isRandom, mappings, sessionLog);
 
@@ -42,11 +42,12 @@ namespace OutreachAutomation.SeleniumBot
                 sessionLog.Logs.AppendLine($"[{DateTime.Now}] ENDING AUTOMATION");
                 sessionLog.Logs.AppendLine("---------------------------------------------");
                 sessionLog.Logs.AppendLine("RESULT : SUCCESS");
+                sessionLog.Logs.AppendLine("---------------------------------------------");
 
                 File.AppendAllText(sessionLog.FilePath, sessionLog.Logs.ToString());
                 sessionLog.Logs.Clear();
 
-                driver.Quit();
+                driver.Close();
             }
             catch (Exception ex)
             {
@@ -55,30 +56,22 @@ namespace OutreachAutomation.SeleniumBot
                 sessionLog.Logs.AppendLine("---------------------------------------------");
                 sessionLog.Logs.AppendLine("RESULT : FAILED");
                 sessionLog.Logs.AppendLine($"REASON : {ex.Message}");
+                sessionLog.Logs.AppendLine("---------------------------------------------");
 
                 File.AppendAllText(sessionLog.FilePath, sessionLog.Logs.ToString());
                 sessionLog.Logs.Clear();
+
+                driver.Close();
             }
         }
 
-        private static void WebSegment(WebDriver driver, string url, MappingsDto mappings, LogDto sessionLog)
+        private static void WebSegment(string url, WebDriver driver, MappingsDto mappings, LogDto sessionLog)
         {
             var random = new Random();
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(210));
 
             driver.Navigate().GoToUrl(url);
-            Sleep(3000);
-            // Retries 3 times
-            var retry = 0;
-            while (driver.Url == null && retry < 3)
-            {
-                sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Connection failed to invitation link, {url}");
-                driver.Navigate().Refresh();
-                Sleep(3000);
-                sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Retrying...");
-                retry++;
-            }
-
-            if (driver.Url == null) throw new Exception("Could not connect");
+            wait.Until(_ => driver.Url == url);
 
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Connected to invitation link, {url}");
 
@@ -100,11 +93,9 @@ namespace OutreachAutomation.SeleniumBot
             var ele2 = driver.FindElement(By.Name("phone_number"));
 
             var number = Generator.GetPhoneNumber();
-            var SavedNumber = mappings.Logins[random.Next(mappings.Logins.Count)].phone_number;
-            if (random.Next(0, 2) == 1)
-            {
-                number = SavedNumber;
-            }
+            var savedNumber = mappings.Logins[random.Next(mappings.Logins.Count)].phone_number;
+            if (random.Next(0, 2) == 1) number = savedNumber;
+
             ele2.SendKeys(number);
             Sleep(1000);
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Entered phone number, {number}");
@@ -136,34 +127,36 @@ namespace OutreachAutomation.SeleniumBot
                         var elementName = driver.FindElement(By.Name("name"));
                         var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
                         elementName.SendKeys(dName);
-                        Sleep(1500);
                         sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
+                        Sleep(1500);
 
                         var elementAge = driver.FindElement(By.Name("age"));
                         var dAge = random.Next(18, 100).ToString();
                         elementAge.SendKeys(dAge);
-                        Sleep(1000);
-
-                        Sleep(1500);
                         sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
+                        Sleep(1500);
 
                         var elementGender = driver.FindElement(By.Id("dont_disclose"));
                         elementGender.Click();
-                        Sleep(2000);
                         sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
+                        Sleep(1500);
 
                         var elementNext = driver.FindElement(By.ClassName("btn-next"));
                         elementNext.Click();
-                        Sleep(3000);
                         sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
+                        Sleep(3000);
                         break;
                     }
                 default:
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] DETECTED Registered user, {mappings.Logins.Where(x => x.phone_number == SavedNumber).FirstOrDefault().name}");
+                    sessionLog.Logs.AppendLine(
+                        $"[{DateTime.Now}] DETECTED Registered user, {mappings.Logins.FirstOrDefault(x => x.phone_number == savedNumber)?.name}");
                     break;
             }
 
             // Click Enter Experience
+            var o = wait.Until(_ => driver.Url.Contains("home"));
+            if (!o) throw new Exception("Could not find home page");
+
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] REACHED Home Page");
             Sleep(1500);
             switch (driver.Url)
@@ -196,64 +189,65 @@ namespace OutreachAutomation.SeleniumBot
         private static void StreamSegment(WebDriver driver, bool isRandom, MappingsDto mappings, LogDto sessionLog)
         {
             var random = new Random();
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(210));
 
             // Find instance
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(210));
-            var res = wait.Until(x => x.Url.Contains("stream"));
-
-            if (!res)
-            {
-                throw new Exception("Could not find any instances");
-            }
+            wait.Until(_ => driver.Url.Contains("stream"));
 
             // Tap to continue
             Sleep(5000);
+            var retry = 3;
             try
             {
-                var ele7 = wait.Until(x => x.FindElement(By.Id("main"))) ?? throw new Exception("Could not enter instance");
-                ele7.Click();
-                sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
-                Sleep(2000);
+                while (retry > 0)
+                {
+                    try
+                    {
+                        var ele7 = wait.Until(_ => driver.FindElement(By.Id("main"))) ??
+                                   throw new Exception("Could not enter instance");
+                        ele7.Click();
+                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
+                        Sleep(2000);
 
-                // Skip tutorial (if any)
-                Sleep(2000);
-                driver.ExecuteScript("hideAllTutorials()");
+                        // Skip tutorial (if any)
+                        driver.ExecuteScript("hideAllTutorials()");
+                        Sleep(2000);
+
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        driver.Navigate().Refresh();
+                        Sleep(6000);
+
+                        retry--;
+                    }
+                }
             }
             catch (Exception)
             {
-                driver.Navigate().Refresh();
-
-                Sleep(6000);
-                try
-                {
-                    var ele7 = wait.Until(x => x.FindElement(By.Id("main"))) ?? throw new Exception("Could not enter instance");
-                    ele7.Click();
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click to enter");
-                    Sleep(2000);
-
-                    // Skip tutorial (if any)
-                    Sleep(2000);
-                    driver.ExecuteScript("hideAllTutorials()");
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Failed to connect to stream");
-                }
+                throw new Exception("Failed to connect to stream");
             }
+
+            Swipe(driver);
 
             // Click 'Nearby'
             driver.ExecuteScript("nearbyV2()");
             Sleep(2000);
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Nearby'");
-            var eleNearby = driver.FindElement(By.Id("nearbyListAdapter2")) ?? throw new Exception("No nearby elements found");
+            var eleNearby = driver.FindElement(By.Id("nearbyListAdapter2")) ??
+                            throw new Exception("No nearby elements found");
 
-            var nearbyNames = eleNearby.Text.Split("\r\n").Where(x => !x.ToLower().Contains("minute")).ToHashSet().ToList();
+            var nearbyNames = eleNearby.Text.Split("\r\n").Where(x => !x.ToLower().Contains("minute")).ToHashSet()
+                .ToList();
 
             // Click on nearby elements
             if (isRandom)
             {
                 var randomCount = random.Next(nearbyNames.Count);
-                while (randomCount > 0)
+                retry = 0;
+
+                while (retry < randomCount)
                 {
                     var randomId = random.Next(randomCount);
                     var eleNearbyData = driver.FindElement(By.Id($"activeNearbyId{randomId}"));
@@ -261,7 +255,8 @@ namespace OutreachAutomation.SeleniumBot
                     eleNearbyData.Click();
                     Sleep(6000);
                     sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on '{nearbyNames[randomId]}'");
-                    randomCount--;
+
+                    retry++;
                 }
             }
             else
@@ -291,14 +286,16 @@ namespace OutreachAutomation.SeleniumBot
             var amenityNames = eleAmenities.Text.Split("\r\n")
                 .Where(x => !x.ToLower().Contains("take") && !x.ToLower().Contains("tap"))
                 .ToHashSet()
-                .Where((x, i) => i % 2 == 0)
+                .Where((_, i) => i % 2 == 0)
                 .ToList();
 
             // Parse by all amenities
             if (isRandom)
             {
                 var randomCount = random.Next(mappings.Amenities.Count);
-                while (randomCount > 0)
+                retry = 0;
+
+                while (retry < randomCount)
                 {
                     var randomId = random.Next(randomCount);
                     if (!amenityNames.Contains(mappings.Amenities[randomId].Title)) continue;
@@ -307,8 +304,12 @@ namespace OutreachAutomation.SeleniumBot
                     Sleep(2000);
                     driver.ExecuteScript($"goToCommonAmenity('{mappings.Amenities[randomId].AmenityId}')");
                     Sleep(6000);
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on amenity '{mappings.Amenities[randomId].Title}'");
-                    randomCount--;
+                    sessionLog.Logs.AppendLine(
+                        $"[{DateTime.Now}] ACTION - Clicked on amenity '{mappings.Amenities[randomId].Title}'");
+
+                    Swipe(driver);
+
+                    retry++;
                 }
             }
             else
@@ -322,6 +323,8 @@ namespace OutreachAutomation.SeleniumBot
                     driver.ExecuteScript($"goToCommonAmenity('{amenity.AmenityId}')");
                     Sleep(6000);
                     sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on amenity '{amenity.Title}'");
+
+                    Swipe(driver);
                 }
             }
 
@@ -334,60 +337,74 @@ namespace OutreachAutomation.SeleniumBot
             driver.ExecuteScript("apartmentV2()");
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on 'Apartments'");
             Sleep(2000);
-            var eleApartments = driver.FindElement(By.Id("unitsListAdapter2")) ?? throw new Exception("No apartments found");
-
-            var apartmentNames = eleApartments.Text.Split("\r\n").Where(x => !x.ToLower().Contains("|")).ToHashSet().ToList();
+            wait.Until(_ => driver.FindElement(By.Id("unitsListAdapter2")) ??
+                            throw new Exception("No apartments found"));
 
             if (isRandom)
             {
-                var randomCount = random.Next(apartmentNames.Count);
-                while (randomCount > 0)
+                var randomCount = random.Next(mappings.Apartments.Count);
+                retry = 0;
+
+                while (retry < randomCount)
                 {
                     var randomId = random.Next(randomCount);
                     // Click on apartment
-                    driver.ExecuteScript($"goToLevel('XX{randomId:D2}')");
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on apartment, {apartmentNames[randomId - 1]} ");
+                    driver.ExecuteScript($"goToLevel('{mappings.Apartments[randomId].LevelId}')");
+                    sessionLog.Logs.AppendLine(
+                        $"[{DateTime.Now}] ACTION - Clicked on apartment, '{mappings.Apartments[randomId].LevelName}'");
                     Sleep(12000);
 
-                    // Detect apartment menu
-                    var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu");
+                    wait.Until(_ =>
+                        driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu"));
 
-                    // Click on kitchen in dollhouse
-                    var apartmentElement = driver.FindElement(By.Id("kitchen"));
-                    apartmentElement.Click();
-                    Sleep(4000);
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click on 'Kitchen'");
+                    Swipe(driver);
+
+                    foreach (var room in mappings.Apartments[randomId].Rooms)
+                    {
+                        // Click on kitchen in dollhouse
+                        var apartmentElement = wait.Until(_ => driver.FindElement(By.Id(room.Id)));
+                        apartmentElement.Click();
+                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click on '{room.Name}'");
+                        Sleep(4000);
+                    }
 
                     // Reset view
                     driver.ExecuteScript("resetView('true')");
-                    Sleep(3000);
                     sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Reset view");
+                    Sleep(3000);
 
                     // Pull up slider menu
                     driver.ExecuteScript("slideHalfUpDollhouse()");
-                    Sleep(2000);
                     sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Pull up apartment slider menu");
+                    Sleep(2000);
 
-                    randomCount--;
+                    retry++;
                 }
             }
             else
             {
-                for (var i = 1; i <= apartmentNames.Count; i++)
+                foreach (var apartment in mappings.Apartments)
                 {
                     // Click on apartment
-                    driver.ExecuteScript($"goToLevel('XX{i:D2}')");
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Clicked on apartment, {apartmentNames[i - 1]} ");
+                    driver.ExecuteScript($"goToLevel('{apartment.LevelId}')");
+                    sessionLog.Logs.AppendLine(
+                        $"[{DateTime.Now}] ACTION - Clicked on apartment, '{apartment.LevelName}'");
                     Sleep(12000);
 
                     // Detect apartment menu
-                    var apartmentMenu = driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu");
+                    wait.Until(_ =>
+                        driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu"));
 
-                    // Click on kitchen in dollhouse
-                    var apartmentElement = driver.FindElement(By.Id("kitchen"));
-                    apartmentElement.Click();
-                    Sleep(4000);
-                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click on 'Kitchen'");
+                    Swipe(driver);
+
+                    foreach (var room in apartment.Rooms)
+                    {
+                        // Click on element in dollhouse
+                        var apartmentElement = wait.Until(_ => driver.FindElement(By.Id(room.Id)));
+                        apartmentElement.Click();
+                        Sleep(4000);
+                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click on '{room.Name}'");
+                    }
 
                     // Reset view
                     driver.ExecuteScript("resetView('true')");
@@ -418,6 +435,15 @@ namespace OutreachAutomation.SeleniumBot
             Sleep(2000);
             eleExit.Click();
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
+
+        }
+
+        private static void Swipe(WebDriver driver)
+        {
+            var action = new Actions(driver);
+            action.DragAndDropToOffset(driver.FindElement(By.Id("streamingVideo")), 200, 0);
+            action.Build().Perform();
+            Sleep(3000);
         }
     }
 }

@@ -40,12 +40,10 @@ namespace OutreachAutomation.SeleniumBot
                     var input = Console.ReadLine();
                     if (input != null) link = input;
                 }
-
-                var mappings = Generator.GetMappings() ?? throw new Exception("Could not get JSON maps");
-
+                
                 while (instances > 0)
                 {
-                    threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
+                    threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance)));
                     instances--;
                 }
 
@@ -61,11 +59,10 @@ namespace OutreachAutomation.SeleniumBot
             }
         }
 
-        private static void StartInstance(string url, bool isSpecified, string browserDriver, string isRandom, MappingsDto mappings)
+        private static void StartInstance(string url, bool isSpecified, string browserDriver, string isRandom)
         {
+            var mappings = Generator.GetMappings() ?? throw new Exception("Failed to load");
             var isRandomInstance = isRandom == "b";
-
-            var random = new Random();
 
             if (isSpecified)
             {
@@ -75,12 +72,14 @@ namespace OutreachAutomation.SeleniumBot
                     "b" => BrowserDrivers.GetDriver(1),
                     _ => BrowserDrivers.GetDriver(2)
                 };
-                Automate.Script(driver, url, isRandomInstance, mappings);
+
+                Automate.Script(url, driver, isRandomInstance, mappings);
             }
             else
             {
-                var driver = BrowserDrivers.GetDriver(random.Next(0, 3));
-                Automate.Script(driver, url, isRandomInstance, mappings);
+                var driver = BrowserDrivers.GetDriver(new Random().Next(0, 3));
+
+                Automate.Script(url, driver, isRandomInstance, mappings);
             }
         }
     }

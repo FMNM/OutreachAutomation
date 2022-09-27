@@ -1,0 +1,226 @@
+[
+  {
+    "LevelId": "XX01",
+    "LevelName": "1BHK",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living and Dining room",
+        "id": "livdining"
+      }
+    ]
+  },
+  {
+    "LevelId": "XX02",
+    "LevelName": "2BHK-type-A",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Bedroom 2",
+        "id": "bed-2"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living and Dining room",
+        "id": "livdining"
+      }
+    ]
+  },
+  {
+    "LevelId": "XX03",
+    "LevelName": "2BHK-type-B",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Bedroom 2",
+        "id": "bed-2"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living and Dining room",
+        "id": "livdining"
+      }
+    ]
+  },
+  {
+    "LevelId": "XX04",
+    "LevelName": "2.5BHK",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Bedroom 2",
+        "id": "bed-2"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Bathroom 3",
+        "id": "bath-3"
+      },
+      {
+        "name": "Bathroom 4",
+        "id": "bath-4"
+      },
+      {
+        "name": "Study",
+        "id": "study"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living and Dining room",
+        "id": "livdining"
+      }
+    ]
+  },
+  {
+    "LevelId": "XX05",
+    "LevelName": "3BHK",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Bedroom 2",
+        "id": "bed-2"
+      },
+      {
+        "name": "Bedroom 3",
+        "id": "bed-3"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Bathroom 3",
+        "id": "bath-3"
+      },
+      {
+        "name": "Bathroom 4",
+        "id": "bath-4"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living room",
+        "id": "living"
+      },
+      {
+        "name": "Dining room",
+        "id": "dining"
+      }
+    ]
+  },
+  {
+    "LevelId": "XX06",
+    "LevelName": "4BHK",
+    "Rooms": [
+      {
+        "name": "Master Bedroom",
+        "id": "bed-1"
+      },
+      {
+        "name": "Bedroom 2",
+        "id": "bed-2"
+      },
+      {
+        "name": "Bedroom 3",
+        "id": "bed-3"
+      },
+      {
+        "name": "Bedroom 4",
+        "id": "bed-4"
+      },
+      {
+        "name": "Master Bathroom",
+        "id": "bath-1"
+      },
+      {
+        "name": "Bathroom 2",
+        "id": "bath-2"
+      },
+      {
+        "name": "Bathroom 3",
+        "id": "bath-3"
+      },
+      {
+        "name": "Bathroom 4",
+        "id": "bath-4"
+      },
+      {
+        "name": "Kitchen",
+        "id": "kitchen"
+      },
+      {
+        "name": "Living room",
+        "id": "living"
+      },
+      {
+        "name": "Dining room",
+        "id": "dining"
+      }
+    ]
+  }
+]
