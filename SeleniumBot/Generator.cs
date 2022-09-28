@@ -16,7 +16,8 @@ namespace OutreachAutomation.SeleniumBot
         {
             var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString().ToUpper();
-            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(), $"LOG-{logId}.txt");
+            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
+                $"LOG-{logId}.txt");
 
             return new LogDto()
             {
@@ -49,6 +50,7 @@ namespace OutreachAutomation.SeleniumBot
         }
 
         #region Individual Mappings
+
         // Get amenity info from JSON
         private static List<AmenityDto> GetAmenityMappings()
         {
@@ -70,7 +72,7 @@ namespace OutreachAutomation.SeleniumBot
 
             return map;
         }
-        
+
         // Get apartment info from JSON
         private static List<ApartmentDto> GetApartmentMappings()
         {
@@ -81,6 +83,7 @@ namespace OutreachAutomation.SeleniumBot
 
             return map;
         }
+
         #endregion
     }
 }

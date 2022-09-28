@@ -11,6 +11,8 @@ namespace OutreachAutomation.SeleniumBot
         {
             try
             {
+                var mappings = Generator.GetMappings() ?? throw new Exception("Failed to load");
+
                 Console.WriteLine("Type of instances (a/b): \n(a) Full \n(b) Random");
                 var isRandomInstance = Console.ReadLine() ?? "a";
 
@@ -20,7 +22,8 @@ namespace OutreachAutomation.SeleniumBot
                 var pickedBrowser = string.Empty;
                 if (isBrowserSelected)
                 {
-                    Console.WriteLine("Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
+                    Console.WriteLine(
+                        "Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
                     pickedBrowser = Console.ReadLine() ?? "a";
                 }
 
@@ -40,10 +43,12 @@ namespace OutreachAutomation.SeleniumBot
                     var input = Console.ReadLine();
                     if (input != null) link = input;
                 }
-                
+
                 while (instances > 0)
                 {
-                    threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance)));
+                    threads.Add(
+                        new Thread(_ =>
+                            StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
                     instances--;
                 }
 
@@ -59,27 +64,28 @@ namespace OutreachAutomation.SeleniumBot
             }
         }
 
-        private static void StartInstance(string url, bool isSpecified, string browserDriver, string isRandom)
+        private static void StartInstance(string url, bool isBrowserSelected, string pickedBrowser,
+            string isRandomInstance,
+            MappingsDto mappings)
         {
-            var mappings = Generator.GetMappings() ?? throw new Exception("Failed to load");
-            var isRandomInstance = isRandom == "b";
+            var isRandom = isRandomInstance == "b";
 
-            if (isSpecified)
+            if (isBrowserSelected)
             {
-                var driver = browserDriver switch
+                var driver = pickedBrowser switch
                 {
                     "a" => BrowserDrivers.GetDriver(0),
                     "b" => BrowserDrivers.GetDriver(1),
                     _ => BrowserDrivers.GetDriver(2)
                 };
 
-                Automate.Script(url, driver, isRandomInstance, mappings);
+                Automate.Script(driver, url, isRandom, mappings);
             }
             else
             {
                 var driver = BrowserDrivers.GetDriver(new Random().Next(0, 3));
 
-                Automate.Script(url, driver, isRandomInstance, mappings);
+                Automate.Script(driver, url, isRandom, mappings);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace OutreachAutomation.SeleniumBot
 {
     public static class Automate
     {
-        public static void Script(string url, WebDriver driver, bool isRandom, MappingsDto mappings)
+        public static void Script(WebDriver driver, string url, bool isRandom, MappingsDto mappings)
         {
             var sessionLog = Generator.GenerateLogs();
             try
@@ -33,7 +33,7 @@ namespace OutreachAutomation.SeleniumBot
 
                 if (url == null) throw new Exception("No invitation link found");
 
-                WebSegment(url, driver, mappings, sessionLog);
+                WebSegment(driver, url, mappings, sessionLog);
 
                 StreamSegment(driver, isRandom, mappings, sessionLog);
 
@@ -65,18 +65,17 @@ namespace OutreachAutomation.SeleniumBot
             }
         }
 
-        private static void WebSegment(string url, WebDriver driver, MappingsDto mappings, LogDto sessionLog)
+        private static void WebSegment(WebDriver driver, string url, MappingsDto mappings, LogDto sessionLog)
         {
             var random = new Random();
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(210));
 
             driver.Navigate().GoToUrl(url);
-            wait.Until(_ => driver.Url == url);
-
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Connected to invitation link, {url}");
+            Sleep(5000);
 
             // Find the Swipe Up body
-            var ele = driver.FindElement(By.Id("upArrow"));
+            var ele = wait.Until(_ => driver.FindElement(By.Id("upArrow")));
             ele.Click();
             Sleep(2000);
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Swipe Up");
@@ -122,31 +121,31 @@ namespace OutreachAutomation.SeleniumBot
             {
                 // In the case that the dummy number is unregistered, the bot will register into the system
                 case "https://outreach.ophs.io/register":
-                    {
-                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
-                        var elementName = driver.FindElement(By.Name("name"));
-                        var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
-                        elementName.SendKeys(dName);
-                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
-                        Sleep(1500);
+                {
+                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration");
+                    var elementName = driver.FindElement(By.Name("name"));
+                    var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
+                    elementName.SendKeys(dName);
+                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}");
+                    Sleep(1500);
 
-                        var elementAge = driver.FindElement(By.Name("age"));
-                        var dAge = random.Next(18, 100).ToString();
-                        elementAge.SendKeys(dAge);
-                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
-                        Sleep(1500);
+                    var elementAge = driver.FindElement(By.Name("age"));
+                    var dAge = random.Next(18, 100).ToString();
+                    elementAge.SendKeys(dAge);
+                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}");
+                    Sleep(1500);
 
-                        var elementGender = driver.FindElement(By.Id("dont_disclose"));
-                        elementGender.Click();
-                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
-                        Sleep(1500);
+                    var elementGender = driver.FindElement(By.Id("dont_disclose"));
+                    elementGender.Click();
+                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Selected undisclosed gender");
+                    Sleep(1500);
 
-                        var elementNext = driver.FindElement(By.ClassName("btn-next"));
-                        elementNext.Click();
-                        sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
-                        Sleep(3000);
-                        break;
-                    }
+                    var elementNext = driver.FindElement(By.ClassName("btn-next"));
+                    elementNext.Click();
+                    sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click button to register");
+                    Sleep(3000);
+                    break;
+                }
                 default:
                     sessionLog.Logs.AppendLine(
                         $"[{DateTime.Now}] DETECTED Registered user, {mappings.Logins.FirstOrDefault(x => x.phone_number == savedNumber)?.name}");
@@ -355,7 +354,8 @@ namespace OutreachAutomation.SeleniumBot
                     Sleep(12000);
 
                     wait.Until(_ =>
-                        driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu"));
+                        driver.FindElement(By.Id("roomMenuList")) ??
+                        throw new Exception("Could not load apartment menu"));
 
                     Swipe(driver);
 
@@ -393,7 +393,8 @@ namespace OutreachAutomation.SeleniumBot
 
                     // Detect apartment menu
                     wait.Until(_ =>
-                        driver.FindElement(By.Id("roomMenuList")) ?? throw new Exception("Could not load apartment menu"));
+                        driver.FindElement(By.Id("roomMenuList")) ??
+                        throw new Exception("Could not load apartment menu"));
 
                     Swipe(driver);
 
@@ -435,7 +436,6 @@ namespace OutreachAutomation.SeleniumBot
             Sleep(2000);
             eleExit.Click();
             sessionLog.Logs.AppendLine($"[{DateTime.Now}] ACTION - Click to exit experience");
-
         }
 
         private static void Swipe(WebDriver driver)
