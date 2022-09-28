@@ -20,6 +20,8 @@ namespace OutreachAutomation.SeleniumBot
             };
         }
 
+        #region Browser drivers
+
         // Google Chrome
         private static ChromeDriver ChromeDriver()
         {
@@ -54,5 +56,7 @@ namespace OutreachAutomation.SeleniumBot
 
             return driver;
         }
+
+        #endregion
     }
 }

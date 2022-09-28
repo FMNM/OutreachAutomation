@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using OutreachAutomation.SeleniumBot.DTO;
 using OutreachAutomation.SeleniumBot.DTO.Mappings;
 
 namespace OutreachAutomation.SeleniumBot
@@ -22,8 +23,7 @@ namespace OutreachAutomation.SeleniumBot
                 var pickedBrowser = string.Empty;
                 if (isBrowserSelected)
                 {
-                    Console.WriteLine(
-                        "Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
+                    Console.WriteLine("Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
                     pickedBrowser = Console.ReadLine() ?? "a";
                 }
 
@@ -46,9 +46,7 @@ namespace OutreachAutomation.SeleniumBot
 
                 while (instances > 0)
                 {
-                    threads.Add(
-                        new Thread(_ =>
-                            StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
+                    threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
                     instances--;
                 }
 
@@ -64,11 +62,11 @@ namespace OutreachAutomation.SeleniumBot
             }
         }
 
-        private static void StartInstance(string url, bool isBrowserSelected, string pickedBrowser,
-            string isRandomInstance,
-            MappingsDto mappings)
+        private static void StartInstance(string url, bool isBrowserSelected, string pickedBrowser, string isRandomInstance, MappingsDto mappings)
         {
             var isRandom = isRandomInstance == "b";
+            var sessionLog = Generator.GetLogInfo();
+            var path = sessionLog.FilePath;
 
             if (isBrowserSelected)
             {
@@ -79,13 +77,29 @@ namespace OutreachAutomation.SeleniumBot
                     _ => BrowserDrivers.GetDriver(2)
                 };
 
-                Automate.Script(driver, url, isRandom, mappings);
+                Automate.Script(new GeneralDto
+                {
+                    Driver = driver,
+                    Mappings = mappings,
+                    Url = url,
+                    IsRandom = isRandom,
+                    Path = path,
+                    LogInfo = sessionLog
+                });
             }
             else
             {
                 var driver = BrowserDrivers.GetDriver(new Random().Next(0, 3));
 
-                Automate.Script(driver, url, isRandom, mappings);
+                Automate.Script(new GeneralDto
+                {
+                    Driver = driver,
+                    Mappings = mappings,
+                    Url = url,
+                    IsRandom = isRandom,
+                    Path = path,
+                    LogInfo = sessionLog
+                });
             }
         }
     }

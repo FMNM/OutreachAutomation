@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using OutreachAutomation.SeleniumBot.DTO.Mappings;
 using OutreachAutomation.SeleniumBot.DTO.SessionLogs;
@@ -12,9 +11,8 @@ namespace OutreachAutomation.SeleniumBot
     public static class Generator
     {
         // Generate log info
-        public static LogDto GenerateLogs()
+        public static LogDto GetLogInfo()
         {
-            var logs = new StringBuilder();
             var logId = Guid.NewGuid().ToString().ToUpper();
             var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
                 $"LOG-{logId}.txt");
@@ -23,7 +21,6 @@ namespace OutreachAutomation.SeleniumBot
             {
                 FilePath = filePath,
                 LogId = logId,
-                Logs = logs
             };
         }
 
@@ -47,6 +44,13 @@ namespace OutreachAutomation.SeleniumBot
             };
 
             return map;
+        }
+
+        // Add to log file
+        public static void AddLog(string data, string path)
+        {
+            using var writer = File.AppendText(path);
+            writer.WriteLine(data);
         }
 
         #region Individual Mappings
