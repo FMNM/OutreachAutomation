@@ -10,20 +10,6 @@ namespace OutreachAutomation.SeleniumBot
 {
     public static class Generator
     {
-        // Generate log info
-        public static LogDto GetLogInfo()
-        {
-            var logId = Guid.NewGuid().ToString().ToUpper();
-            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
-                $"LOG-{logId}.txt");
-
-            return new LogDto()
-            {
-                FilePath = filePath,
-                LogId = logId,
-            };
-        }
-
         // Random number generator
         public static string GetPhoneNumber()
         {
@@ -44,6 +30,20 @@ namespace OutreachAutomation.SeleniumBot
             };
 
             return map;
+        }
+
+        // Generate log info
+        public static LogDto GetLogInfo()
+        {
+            var logId = Guid.NewGuid().ToString().ToUpper();
+            var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
+                $"LOG-{logId}.txt");
+
+            return new LogDto()
+            {
+                FilePath = filePath,
+                LogId = logId,
+            };
         }
 
         // Add to log file
