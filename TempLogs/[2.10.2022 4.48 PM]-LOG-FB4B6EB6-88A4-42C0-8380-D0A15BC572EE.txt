@@ -1,0 +1,21 @@
+Selenium WebDriver Bot, Log - FB4B6EB6-88A4-42C0-8380-D0A15BC572EE
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.53
+---------------------------------------------
+[02-Oct-22 4:48:31 PM] STARTING AUTOMATION
+[02-Oct-22 4:48:43 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[02-Oct-22 4:48:50 PM] ACTION - Swipe Up
+[02-Oct-22 4:48:50 PM] ACTION - Selected country code
+[02-Oct-22 4:48:53 PM] ACTION - Entered phone number, 5706051883
+[02-Oct-22 4:48:55 PM] ACTION - Requested OTP
+[02-Oct-22 4:48:58 PM] ACTION - Entered dummy OTP, 123456
+[02-Oct-22 4:49:01 PM] ACTION - Click button to verify OTP
+[02-Oct-22 4:49:04 PM] DETECTED Registered user, Ophs Selenium Bot - 27764
+[02-Oct-22 4:49:04 PM] REACHED Home Page
+[02-Oct-22 4:49:07 PM] ACTION - Click to Enter Experience
+[02-Oct-22 4:52:40 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : Timed out after 210 seconds
+---------------------------------------------

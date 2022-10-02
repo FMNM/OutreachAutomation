@@ -15,8 +15,7 @@ namespace OutreachAutomation.SeleniumBot
             return i switch
             {
                 0 => ChromeDriver(),
-                1 => EdgeDriver(),
-                _ => FirefoxDriver()
+                _ => EdgeDriver()
             };
         }
 

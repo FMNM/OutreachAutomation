@@ -1,0 +1,16 @@
+Selenium WebDriver Bot, Log - 8662207A-0604-48C9-A51D-4E00BF13B1F4
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.53
+---------------------------------------------
+[02-Oct-22 4:48:10 PM] STARTING AUTOMATION
+[02-Oct-22 4:48:12 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[02-Oct-22 4:48:19 PM] ACTION - Swipe Up
+[02-Oct-22 4:48:19 PM] ACTION - Selected country code
+[02-Oct-22 4:48:22 PM] ACTION - Entered phone number, 707114370
+[02-Oct-22 4:48:25 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : element click intercepted: Element <button type="button" class="btn btn-sendotp disabled">...</button> is not clickable at point (226, 549). Other element would receive the click: <div class="next-button-area px-0">...</div>
+  (Session info: MicrosoftEdge=105.0.1343.53)
+---------------------------------------------

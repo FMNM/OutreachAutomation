@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using OpenQA.Selenium;
 using OutreachAutomation.SeleniumBot.DTO;
 using OutreachAutomation.SeleniumBot.DTO.Mappings;
 
@@ -23,7 +24,7 @@ namespace OutreachAutomation.SeleniumBot
                 var pickedBrowser = string.Empty;
                 if (isBrowserSelected)
                 {
-                    Console.WriteLine("Pick browser (a/b/c): \n(a) Google Chrome \n(b) Microsoft Edge \n(c) Mozilla Firefox");
+                    Console.WriteLine("Pick browser (a/b): \n(a) Google Chrome \n(b) Microsoft Edge");
                     pickedBrowser = Console.ReadLine() ?? "a";
                 }
 
@@ -70,11 +71,10 @@ namespace OutreachAutomation.SeleniumBot
 
             if (isBrowserSelected)
             {
-                var driver = pickedBrowser switch
+                WebDriver driver = pickedBrowser switch
                 {
                     "a" => BrowserDrivers.GetDriver(0),
-                    "b" => BrowserDrivers.GetDriver(1),
-                    _ => BrowserDrivers.GetDriver(2)
+                    _ => BrowserDrivers.GetDriver(1)
                 };
 
                 Automate.Script(new GeneralDto

@@ -1,0 +1,25 @@
+Selenium WebDriver Bot, Log - EDCAFF1D-85B5-4FC1-8E0E-FA3AAE891824
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.53
+---------------------------------------------
+[02-Oct-22 6:25:30 PM] STARTING AUTOMATION
+[02-Oct-22 6:25:32 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[02-Oct-22 6:25:40 PM] ACTION - Swipe Up
+[02-Oct-22 6:25:40 PM] ACTION - Selected country code
+[02-Oct-22 6:25:42 PM] ACTION - Entered phone number, 8127566925
+[02-Oct-22 6:25:45 PM] ACTION - Requested OTP
+[02-Oct-22 6:25:47 PM] ACTION - Entered dummy OTP, 123456
+[02-Oct-22 6:25:50 PM] ACTION - Click button to verify OTP
+[02-Oct-22 6:25:53 PM] DETECTED Unregistered user. PROCEEDING Registration
+[02-Oct-22 6:25:53 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 42
+[02-Oct-22 6:25:55 PM] ACTION - Enter dummy age, 61
+[02-Oct-22 6:25:56 PM] ACTION - Selected undisclosed gender
+[02-Oct-22 6:25:58 PM] ACTION - Click button to register
+[02-Oct-22 6:26:01 PM] REACHED Home Page
+[02-Oct-22 6:26:04 PM] ACTION - Click to Enter Experience
+[02-Oct-22 6:26:06 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : Could not connect to server
+---------------------------------------------

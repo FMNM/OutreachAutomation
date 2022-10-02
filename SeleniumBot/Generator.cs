@@ -37,12 +37,12 @@ namespace OutreachAutomation.SeleniumBot
         {
             var logId = Guid.NewGuid().ToString().ToUpper();
             var filePath = Path.Combine(Environment.CurrentDirectory, Directory.CreateDirectory("TempLogs").ToString(),
-                $"LOG-{logId}.txt");
+                $"[{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year} {DateTime.Now.ToShortTimeString().Replace(":", ".")}]-LOG-{logId}.txt");
 
-            return new LogDto()
+            return new LogDto
             {
                 FilePath = filePath,
-                LogId = logId,
+                LogId = logId
             };
         }
 
@@ -51,6 +51,24 @@ namespace OutreachAutomation.SeleniumBot
         {
             using var writer = File.AppendText(path);
             writer.WriteLine(data);
+        }
+
+        // Create new log info files
+        public static TimeSpan GetTotalTimeSpent(string filePath)
+        {
+            try
+            {
+                var lines = File.ReadLines(filePath).Where(x => x.Contains("[") && x.Contains("]")).ToList();
+
+                var startTime = DateTime.Parse(lines[0].Substring(lines[0].IndexOf("[") + 1, lines[0].IndexOf("]") - 1));
+                var endTime = DateTime.Parse(lines[^1].Substring(lines[^1].IndexOf("[") + 1, lines[^1].IndexOf("]") - 1));
+
+                return endTime - startTime;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         #region Individual Mappings
