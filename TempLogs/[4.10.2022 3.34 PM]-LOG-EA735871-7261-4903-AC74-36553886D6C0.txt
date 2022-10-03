@@ -1,0 +1,75 @@
+Selenium WebDriver Bot, Log - EA735871-7261-4903-AC74-36553886D6C0
+---------------------------------------------
+BROWSER : chrome
+VERSION : 106.0.5249.62
+---------------------------------------------
+[04-Oct-22 3:34:23 PM] STARTING AUTOMATION
+[04-Oct-22 3:34:25 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[04-Oct-22 3:34:33 PM] ACTION - Swipe Up
+[04-Oct-22 3:34:33 PM] ACTION - Selected country code
+[04-Oct-22 3:34:35 PM] ACTION - Entered phone number, 2274620162
+[04-Oct-22 3:34:38 PM] ACTION - Requested OTP
+[04-Oct-22 3:34:40 PM] ACTION - Entered dummy OTP, 123456
+[04-Oct-22 3:34:43 PM] ACTION - Click button to verify OTP
+[04-Oct-22 3:34:47 PM] DETECTED Registered user, Ophs Selenium Bot - 11354
+[04-Oct-22 3:34:47 PM] REACHED Home Page
+[04-Oct-22 3:34:50 PM] ACTION - Click to Enter Experience
+[04-Oct-22 3:36:22 PM] ACTION - Click to enter
+[04-Oct-22 3:36:31 PM] ACTION - Clicked on 'Nearby'
+[04-Oct-22 3:36:36 PM] ACTION - Clicked on nearby unit, 'Sitaladevi Metro Station'
+[04-Oct-22 3:36:45 PM] ACTION - Clicked on nearby unit, 'Hinduja Hospital'
+[04-Oct-22 3:36:51 PM] ACTION - Reset view
+[04-Oct-22 3:36:53 PM] ACTION - Clicked on 'Amenities'
+[04-Oct-22 3:36:56 PM] ACTION - Reset view
+[04-Oct-22 3:36:58 PM] ACTION - Clicked on 'Apartments'
+[04-Oct-22 3:37:01 PM] ACTION - Clicked on apartment, '3BHK'
+[04-Oct-22 3:37:17 PM] ACTION - Click on 'Master Bedroom'
+[04-Oct-22 3:37:27 PM] ACTION - Click on 'Bedroom 2'
+[04-Oct-22 3:37:37 PM] ACTION - Click on 'Bedroom 3'
+[04-Oct-22 3:37:47 PM] ACTION - Click on 'Master Bathroom'
+[04-Oct-22 3:37:57 PM] ACTION - Click on 'Bathroom 2'
+[04-Oct-22 3:38:07 PM] ACTION - Click on 'Bathroom 3'
+[04-Oct-22 3:38:17 PM] ACTION - Click on 'Bathroom 4'
+[04-Oct-22 3:38:27 PM] ACTION - Click on 'Kitchen'
+[04-Oct-22 3:38:37 PM] ACTION - Click on 'Living room'
+[04-Oct-22 3:38:47 PM] ACTION - Click on 'Dining room'
+[04-Oct-22 3:38:58 PM] ACTION - Reset view
+[04-Oct-22 3:39:01 PM] ACTION - Pull up apartment slider menu
+---------------------
+Time spent in 3BHK: 00:02:02.1856533
+---------------------
+[04-Oct-22 3:39:03 PM] ACTION - Clicked on apartment, '2.5BHK'
+[04-Oct-22 3:39:19 PM] ACTION - Click on 'Master Bedroom'
+[04-Oct-22 3:39:29 PM] ACTION - Click on 'Bedroom 2'
+[04-Oct-22 3:39:39 PM] ACTION - Click on 'Master Bathroom'
+[04-Oct-22 3:39:49 PM] ACTION - Click on 'Bathroom 2'
+[04-Oct-22 3:39:59 PM] ACTION - Click on 'Bathroom 3'
+[04-Oct-22 3:40:09 PM] ACTION - Click on 'Bathroom 4'
+[04-Oct-22 3:40:19 PM] ACTION - Click on 'Study'
+[04-Oct-22 3:40:29 PM] ACTION - Click on 'Kitchen'
+[04-Oct-22 3:40:39 PM] ACTION - Click on 'Living and Dining room'
+[04-Oct-22 3:40:50 PM] ACTION - Reset view
+[04-Oct-22 3:40:53 PM] ACTION - Pull up apartment slider menu
+---------------------
+Time spent in 2.5BHK: 00:01:52.0506871
+---------------------
+[04-Oct-22 3:40:55 PM] ACTION - Clicked on apartment, '1BHK'
+[04-Oct-22 3:41:11 PM] ACTION - Click on 'Master Bedroom'
+[04-Oct-22 3:41:21 PM] ACTION - Click on 'Master Bathroom'
+[04-Oct-22 3:41:31 PM] ACTION - Click on 'Bathroom 2'
+[04-Oct-22 3:41:41 PM] ACTION - Click on 'Kitchen'
+[04-Oct-22 3:41:51 PM] ACTION - Click on 'Living and Dining room'
+[04-Oct-22 3:42:01 PM] ACTION - Reset view
+[04-Oct-22 3:42:04 PM] ACTION - Pull up apartment slider menu
+---------------------
+Time spent in 1BHK: 00:01:11.6369421
+---------------------
+[04-Oct-22 3:42:07 PM] ACTION - Clicked on apartment, '1BHK'
+[04-Oct-22 3:42:22 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : element not interactable
+  (Session info: chrome=106.0.5249.62)
+---------------------------------------------
+Total time spent : 00:07:59
+---------------------------------------------

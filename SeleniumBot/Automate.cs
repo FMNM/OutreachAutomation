@@ -41,7 +41,7 @@ namespace OutreachAutomation.SeleniumBot
                 AddLog("---------------------------------------------", data.Path);
                 AddLog("RESULT : SUCCESS", data.Path);
                 AddLog("---------------------------------------------", data.Path);
-                AddLog($"Total time spent : {GetTotalTimeSpent(data.LogInfo.FilePath)}", data.Path);
+                AddLog($"Total time spent : {GetTotalAutomationDuration(data.LogInfo.FilePath)}", data.Path);
                 AddLog("---------------------------------------------", data.Path);
 
                 data.Driver.Close();
@@ -56,7 +56,7 @@ namespace OutreachAutomation.SeleniumBot
                 AddLog("RESULT : FAILED", data.Path);
                 AddLog($"REASON : {ex.Message}", data.Path);
                 AddLog("---------------------------------------------", data.Path);
-                AddLog($"Total time spent : {GetTotalTimeSpent(data.LogInfo.FilePath).ToString()}", data.Path);
+                AddLog($"Total time spent : {GetTotalAutomationDuration(data.LogInfo.FilePath)}", data.Path);
                 AddLog("---------------------------------------------", data.Path);
 
                 data.Driver.Close();
@@ -258,13 +258,13 @@ namespace OutreachAutomation.SeleniumBot
 
                 // Reset view
                 data.Driver.ExecuteScript("resetView('true')");
-                Sleep(2500);
                 AddLog($"[{DateTime.Now}] ACTION - Reset view", data.Path);
+                Sleep(2500);
 
                 // Click 'Amenities'
                 data.Driver.ExecuteScript("amenityV2()");
-                Sleep(2500);
                 AddLog($"[{DateTime.Now}] ACTION - Clicked on 'Amenities'", data.Path);
+                Sleep(2500);
                 var eleAmenities = data.Driver.FindElement(By.Id("amenityListAdapter2")) ?? throw new Exception("No amenity elements found");
 
                 var amenityNames = eleAmenities.Text.Split("\r\n").Where(x => !x.ToLower().Contains("take") && !x.ToLower().Contains("tap"))
@@ -321,6 +321,7 @@ namespace OutreachAutomation.SeleniumBot
                 Sleep(2500);
                 wait.Until(_ => data.Driver.FindElement(By.Id("unitsListAdapter2")) ?? throw new Exception("No apartments found"));
 
+                // Parse by all apartments
                 if (data.IsRandom)
                 {
                     var randomCount = random.Next(1, data.Mappings.Apartments.Count + 1);
@@ -328,6 +329,8 @@ namespace OutreachAutomation.SeleniumBot
 
                     while (retry < randomCount)
                     {
+                        var start = DateTime.Now;
+
                         var randomId = random.Next(randomCount);
                         // Click on apartment
                         data.Driver.ExecuteScript($"goToLevel('{data.Mappings.Apartments[randomId].LevelId}')");
@@ -359,6 +362,12 @@ namespace OutreachAutomation.SeleniumBot
                         AddLog($"[{DateTime.Now}] ACTION - Pull up apartment slider menu", data.Path);
                         Sleep(2500);
 
+                        var end = DateTime.Now;
+
+                        AddLog("---------------------", data.Path);
+                        AddLog($"Time spent in {data.Mappings.Apartments[randomId].LevelName}: {end - start}", data.Path);
+                        AddLog("---------------------", data.Path);
+
                         retry++;
                     }
                 }
@@ -366,6 +375,8 @@ namespace OutreachAutomation.SeleniumBot
                 {
                     foreach (var apartment in data.Mappings.Apartments)
                     {
+                        var start = DateTime.Now;
+
                         // Click on apartment
                         data.Driver.ExecuteScript($"goToLevel('{apartment.LevelId}')");
                         AddLog($"[{DateTime.Now}] ACTION - Clicked on apartment, '{apartment.LevelName}'", data.Path);
@@ -396,6 +407,12 @@ namespace OutreachAutomation.SeleniumBot
                         data.Driver.ExecuteScript("slideHalfUpDollhouse()");
                         AddLog($"[{DateTime.Now}] ACTION - Pull up apartment slider menu", data.Path);
                         Sleep(2500);
+
+                        var end = DateTime.Now;
+
+                        AddLog("---------------------", data.Path);
+                        AddLog($"Time spent in {apartment.LevelName}: {end - start}", data.Path);
+                        AddLog("---------------------", data.Path);
                     }
                 }
 
@@ -438,8 +455,9 @@ namespace OutreachAutomation.SeleniumBot
             }
             catch (Exception ex)
             {
+                // Ensuring 3 attempts at trying to connect to Stream
                 repeatCount--;
-                if (repeatCount == 0)
+                if (repeatCount <= 0)
                 {
                     throw new Exception(ex.Message);
                 }
@@ -452,6 +470,7 @@ namespace OutreachAutomation.SeleniumBot
 
         private static void Swipe(WebDriver driver)
         {
+            // Basic swipe action
             var action = new Actions(driver);
             action.DragAndDropToOffset(driver.FindElement(By.Id("streamingVideo")), 200, 0);
             action.Build().Perform();

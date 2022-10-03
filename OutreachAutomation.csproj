@@ -10,7 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Appium.WebDriver" Version="4.3.2" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
       <PackageReference Include="Selenium.WebDriver" Version="4.5.0" />
       <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="106.0.5249.6100" />
@@ -19,7 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TempLogs" />
       <Folder Include="TempLogs\" />
     </ItemGroup>
 

@@ -22,7 +22,7 @@ namespace OutreachAutomation.SeleniumBot
         // Mappings
         public static MappingsDto GetMappings()
         {
-            var map = new MappingsDto()
+            var map = new MappingsDto
             {
                 Amenities = GetAmenityMappings(),
                 Logins = GetLoginMappings(),
@@ -54,14 +54,14 @@ namespace OutreachAutomation.SeleniumBot
         }
 
         // Create new log info files
-        public static TimeSpan GetTotalTimeSpent(string filePath)
+        public static TimeSpan GetTotalAutomationDuration(string filePath)
         {
             try
             {
-                var lines = File.ReadLines(filePath).Where(x => x.Contains("[") && x.Contains("]")).ToList();
+                var timeStamps = File.ReadLines(filePath).Where(x => x.Contains("[") && x.Contains("]")).ToList();
 
-                var startTime = DateTime.Parse(lines[0].Substring(lines[0].IndexOf("[") + 1, lines[0].IndexOf("]") - 1));
-                var endTime = DateTime.Parse(lines[^1].Substring(lines[^1].IndexOf("[") + 1, lines[^1].IndexOf("]") - 1));
+                var startTime = DateTime.Parse(timeStamps[0].Substring(timeStamps[0].IndexOf("[") + 1, timeStamps[0].IndexOf("]") - 1));
+                var endTime = DateTime.Parse(timeStamps[^1].Substring(timeStamps[^1].IndexOf("[") + 1, timeStamps[^1].IndexOf("]") - 1));
 
                 return endTime - startTime;
             }

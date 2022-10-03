@@ -1,0 +1,37 @@
+Selenium WebDriver Bot, Log - E531D0BF-A5E3-4F6E-933B-2EC5880540AE
+---------------------------------------------
+BROWSER : msedge
+VERSION : 105.0.1343.53
+---------------------------------------------
+[04-Oct-22 3:34:18 PM] STARTING AUTOMATION
+[04-Oct-22 3:34:20 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[04-Oct-22 3:34:28 PM] ACTION - Swipe Up
+[04-Oct-22 3:34:28 PM] ACTION - Selected country code
+[04-Oct-22 3:34:31 PM] ACTION - Entered phone number, 4516837613
+[04-Oct-22 3:34:33 PM] ACTION - Requested OTP
+[04-Oct-22 3:34:36 PM] ACTION - Entered dummy OTP, 123456
+[04-Oct-22 3:34:38 PM] ACTION - Click button to verify OTP
+[04-Oct-22 3:34:41 PM] DETECTED Unregistered user. PROCEEDING Registration
+[04-Oct-22 3:34:41 PM] ACTION - Enter dummy name, Ophs Selenium Bot - 8792
+[04-Oct-22 3:34:43 PM] ACTION - Enter dummy age, 92
+[04-Oct-22 3:34:45 PM] ACTION - Selected undisclosed gender
+[04-Oct-22 3:34:46 PM] ACTION - Click button to register
+[04-Oct-22 3:34:49 PM] REACHED Home Page
+[04-Oct-22 3:34:52 PM] ACTION - Click to Enter Experience
+[04-Oct-22 3:36:43 PM] ACTION - Click to enter
+[04-Oct-22 3:36:52 PM] ACTION - Clicked on 'Nearby'
+[04-Oct-22 3:36:57 PM] ACTION - Clicked on nearby unit, 'Sitaladevi Metro Station'
+[04-Oct-22 3:37:06 PM] ACTION - Clicked on nearby unit, 'Hinduja Hospital'
+[04-Oct-22 3:37:12 PM] ACTION - Reset view
+[04-Oct-22 3:37:14 PM] ACTION - Clicked on 'Amenities'
+[04-Oct-22 3:37:25 PM] ACTION - Clicked on amenity unit, 'Grand Entrance Lobby'
+[04-Oct-22 3:37:37 PM] ACTION - Clicked on amenity unit, 'Sky Jogging Track'
+[04-Oct-22 3:37:49 PM] ACTION - Clicked on amenity unit, 'The Cafe'
+[04-Oct-22 3:37:49 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : no such element: Unable to locate element: {"method":"css selector","selector":"#streamingVideo"}
+  (Session info: MicrosoftEdge=105.0.1343.53)
+---------------------------------------------
+Total time spent : 00:03:31
+---------------------------------------------

@@ -34,8 +34,6 @@ namespace OutreachAutomation.SeleniumBot
 
                 Console.WriteLine("Have an invitation link already? (y/n)");
                 var isInvite = Console.ReadLine();
-
-                var threads = new List<Thread>();
                 var link = "https://outreach.ophs.io/9bIh6ZVD";
 
                 if (isInvite?.ToLower() == "y")
@@ -45,6 +43,7 @@ namespace OutreachAutomation.SeleniumBot
                     if (input != null) link = input;
                 }
 
+                var threads = new List<Thread>();
                 while (instances > 0)
                 {
                     threads.Add(new Thread(_ => StartInstance(link, isBrowserSelected, pickedBrowser, isRandomInstance, mappings)));
@@ -65,41 +64,37 @@ namespace OutreachAutomation.SeleniumBot
 
         private static void StartInstance(string url, bool isBrowserSelected, string pickedBrowser, string isRandomInstance, MappingsDto mappings)
         {
-            var isRandom = isRandomInstance == "b";
-            var sessionLog = Generator.GetLogInfo();
-            var path = sessionLog.FilePath;
-
-            if (isBrowserSelected)
+            try
             {
-                WebDriver driver = pickedBrowser switch
+                var sessionLog = Generator.GetLogInfo();
+                WebDriver driver = null;
+
+                if (isBrowserSelected)
                 {
-                    "a" => BrowserDrivers.GetDriver(0),
-                    _ => BrowserDrivers.GetDriver(1)
-                };
+                    driver = pickedBrowser switch
+                    {
+                        "a" => BrowserDrivers.GetDriver(0),
+                        _ => BrowserDrivers.GetDriver(1)
+                    };
+                }
+                else
+                {
+                    driver = BrowserDrivers.GetDriver(new Random().Next(0, 3));
+                }
 
                 Automate.Script(new GeneralDto
                 {
                     Driver = driver,
                     Mappings = mappings,
                     Url = url,
-                    IsRandom = isRandom,
-                    Path = path,
+                    IsRandom = isRandomInstance == "b",
+                    Path = sessionLog.FilePath,
                     LogInfo = sessionLog
                 });
             }
-            else
+            catch (Exception ex)
             {
-                var driver = BrowserDrivers.GetDriver(new Random().Next(0, 3));
-
-                Automate.Script(new GeneralDto
-                {
-                    Driver = driver,
-                    Mappings = mappings,
-                    Url = url,
-                    IsRandom = isRandom,
-                    Path = path,
-                    LogInfo = sessionLog
-                });
+                throw new Exception(ex.Message);
             }
         }
     }
