@@ -1,0 +1,18 @@
+Selenium WebDriver Bot, Log - C0A3E91E-DFD9-4989-8DFF-4319CF24FF78
+---------------------------------------------
+BROWSER : msedge
+VERSION : 109.0.1518.70
+---------------------------------------------
+[03-Feb-23 10:55:32 PM] STARTING AUTOMATION
+[03-Feb-23 10:55:36 PM] ACTION - Connected to invitation link, https://outreach.ophs.io/9bIh6ZVD
+[03-Feb-23 10:55:43 PM] ACTION - Swipe Up
+[03-Feb-23 10:55:44 PM] ACTION - Selected country code
+[03-Feb-23 10:55:46 PM] ENDING AUTOMATION
+---------------------------------------------
+RESULT : FAILED
+REASON : no such window: target window already closed
+from unknown error: web view not found
+  (Session info: MicrosoftEdge=109.0.1518.70)
+---------------------------------------------
+Total time spent : 00:00:14
+---------------------------------------------

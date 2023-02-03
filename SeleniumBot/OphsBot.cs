@@ -16,7 +16,7 @@ namespace OutreachAutomation.SeleniumBot
                 var mappings = Generator.GetMappings() ?? throw new Exception("Failed to load");
 
                 Console.WriteLine("Type of instances (a/b): \n(a) Full \n(b) Random");
-                var isRandomInstance = Console.ReadLine() ?? "a";
+                var isRandomInstance = Console.ReadLine() ?? "a";                
 
                 Console.WriteLine("Specify browser? (y/n)");
                 var isBrowserSelected = Console.ReadLine() == "y";
@@ -34,6 +34,7 @@ namespace OutreachAutomation.SeleniumBot
 
                 Console.WriteLine("Have an invitation link already? (y/n)");
                 var isInvite = Console.ReadLine();
+
                 var link = "https://outreach.ophs.io/9bIh6ZVD";
 
                 if (isInvite?.ToLower() == "y")
@@ -41,6 +42,10 @@ namespace OutreachAutomation.SeleniumBot
                     Console.WriteLine("Enter invitation link: ");
                     var input = Console.ReadLine();
                     if (input != null) link = input;
+                }
+                else
+                {
+                    Console.WriteLine($"Using testing link:, {link}\n");
                 }
 
                 var threads = new List<Thread>();
