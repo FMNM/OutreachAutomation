@@ -113,36 +113,35 @@ namespace OutreachAutomation.SeleniumBot
             AddLog($"[{DateTime.Now}] ACTION - Click button to verify OTP", data.Path);
             Sleep(3000);
 
-            switch (data.Driver.Url)
+            // In the case that the dummy number is unregistered, the bot will register into the system
+            if (data.Driver.Url.ToLower().Contains("register"))
             {
-                // In the case that the dummy number is unregistered, the bot will register into the system
-                case "https://outreach.ophs.io/register":
-                    AddLog($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration", data.Path);
-                    var elementName = data.Driver.FindElement(By.Name("name"));
-                    var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
-                    elementName.SendKeys(dName);
-                    AddLog($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}", data.Path);
-                    Sleep(1500);
+                AddLog($"[{DateTime.Now}] DETECTED Unregistered user. PROCEEDING Registration", data.Path);
+                var elementName = data.Driver.FindElement(By.Name("name"));
+                var dName = $"Ophs Selenium Bot - {random.Next(50000)}";
+                elementName.SendKeys(dName);
+                AddLog($"[{DateTime.Now}] ACTION - Enter dummy name, {dName}", data.Path);
+                Sleep(1500);
 
-                    var elementAge = data.Driver.FindElement(By.Name("age"));
-                    var dAge = random.Next(18, 100).ToString();
-                    elementAge.SendKeys(dAge);
-                    AddLog($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}", data.Path);
-                    Sleep(1500);
+                var elementAge = data.Driver.FindElement(By.Name("age"));
+                var dAge = random.Next(18, 100).ToString();
+                elementAge.SendKeys(dAge);
+                AddLog($"[{DateTime.Now}] ACTION - Enter dummy age, {dAge}", data.Path);
+                Sleep(1500);
 
-                    var elementGender = data.Driver.FindElement(By.Id("dont_disclose"));
-                    elementGender.Click();
-                    AddLog($"[{DateTime.Now}] ACTION - Selected undisclosed gender", data.Path);
-                    Sleep(1500);
+                var elementGender = data.Driver.FindElement(By.Id("dont_disclose"));
+                elementGender.Click();
+                AddLog($"[{DateTime.Now}] ACTION - Selected undisclosed gender", data.Path);
+                Sleep(1500);
 
-                    var elementNext = data.Driver.FindElement(By.ClassName("btn-next"));
-                    elementNext.Click();
-                    AddLog($"[{DateTime.Now}] ACTION - Click button to register", data.Path);
-                    Sleep(3000);
-                    break;
-                default:
-                    AddLog($"[{DateTime.Now}] DETECTED Registered user, {data.Mappings.Logins.FirstOrDefault(x => x.phone_number == savedNumber)?.name}", data.Path);
-                    break;
+                var elementNext = data.Driver.FindElement(By.ClassName("btn-next"));
+                elementNext.Click();
+                AddLog($"[{DateTime.Now}] ACTION - Click button to register", data.Path);
+                Sleep(3000);
+            }
+            else
+            {
+                AddLog($"[{DateTime.Now}] DETECTED Registered user, {data.Mappings.Logins.FirstOrDefault(x => x.phone_number == savedNumber)?.name}", data.Path);
             }
 
             // Click Enter Experience
@@ -151,18 +150,18 @@ namespace OutreachAutomation.SeleniumBot
 
             AddLog($"[{DateTime.Now}] REACHED Home Page", data.Path);
             Sleep(1500);
-            switch (data.Driver.Url)
+
+            if (data.Driver.Url.ToLower().Contains("home-buyer"))
             {
-                case "https://outreach.ophs.io/home-buyer":
-                    var ele6 = data.Driver.FindElement(By.Id("enter-ex-2"));
-                    Sleep(1500);
-                    ele6.Click();
-                    break;
-                default:
-                    ele6 = data.Driver.FindElement(By.Id("enterExperience"));
-                    Sleep(1500);
-                    ele6.Click();
-                    break;
+                var ele6 = data.Driver.FindElement(By.Id("enter-ex-2"));
+                Sleep(1500);
+                ele6.Click();
+            }
+            else
+            {
+                var ele6 = data.Driver.FindElement(By.Id("enterExperience"));
+                Sleep(1500);
+                ele6.Click();
             }
 
             AddLog($"[{DateTime.Now}] ACTION - Click to Enter Experience", data.Path);

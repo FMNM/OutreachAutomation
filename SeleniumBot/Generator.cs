@@ -26,7 +26,8 @@ namespace OutreachAutomation.SeleniumBot
             {
                 Amenities = GetAmenityMappings(),
                 Logins = GetLoginMappings(),
-                Apartments = GetApartmentMappings()
+                Apartments = GetApartmentMappings(),
+                TestLinks = GetTestLinksMappings()
             };
 
             return map;
@@ -102,6 +103,17 @@ namespace OutreachAutomation.SeleniumBot
             var file = File.ReadAllText(filePath);
 
             var map = JsonConvert.DeserializeObject<List<ApartmentDto>>(file);
+
+            return map;
+        }
+
+        // Get link info from JSON
+        private static List<TestLinksDto> GetTestLinksMappings()
+        {
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Assets/JSONs/TestLinks.json");
+            var file = File.ReadAllText(filePath);
+
+            var map = JsonConvert.DeserializeObject<List<TestLinksDto>>(file);
 
             return map;
         }

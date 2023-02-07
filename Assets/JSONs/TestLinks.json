@@ -1,0 +1,44 @@
+[
+  {
+    "Environment": "Staging",
+    "Units": [
+      {
+        "UnitName": "Prescon Miracle Bay",
+        "UnitLink": "https://outreach.ophs.io/59NySycE"
+      },
+      {
+        "UnitName": "EON ONE",
+        "UnitLink": "https://outreach.ophs.io/wieXoav1"
+      },
+      {
+        "UnitName": "Transcon Triumph",
+        "UnitLink": "https://outreach.ophs.io/Y5tehIiz"
+      },
+      {
+        "UnitName": "ANTARIKSH ACE BANDRA",
+        "UnitLink": "https://outreach.ophs.io/x6MfWSDK"
+      },
+      {
+        "UnitName": "Aakasa Worli",
+        "UnitLink": "https://outreach.ophs.io/5z4TWAGo"
+      }
+    ]
+  },
+  {
+    "Environment": "Production",
+    "Units": [
+      {
+        "UnitName": "Prescon Miracle Bay",
+        "UnitLink": "https://outreach.ophs.in/RsGpq5xZ"
+      },
+      {
+        "UnitName": "EON ONE",
+        "UnitLink": "https://outreach.ophs.in/BdIb50Dx"
+      },
+      {
+        "UnitName": "ANTARIKSH ACE BANDRA",
+        "UnitLink": "https://outreach.ophs.in/5NAqR7Ik"
+      }
+    ]
+  }
+]
