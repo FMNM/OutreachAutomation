@@ -53,9 +53,9 @@ namespace OutreachAutomation.SeleniumBot
 
                     foreach (var threading in threads)
                     {
+                        Thread.Sleep(10000);
                         Console.WriteLine("\n");
                         threading.Start();
-                        Thread.Sleep(5000);
                     }
                 }
                 else
