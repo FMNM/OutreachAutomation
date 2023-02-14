@@ -14,18 +14,33 @@ namespace OutreachAutomation.SeleniumBot
         {
             try
             {
+                // Fetches some data for the rest of the script
                 var mappings = Generator.GetMappings() ?? throw new Exception("Failed to load");
 
-                Console.WriteLine("Is a specific environment/instance test? (y/n)");
+                // Basic UI for the script
+                Console.WriteLine("Is a specific environment/instance test? (y/n) \n 'y' - Custom number of instances for specific link can be applied \n 'n' - It will open a single instance of every project in selected environment");
                 var isSpecificTest = Console.ReadLine().ToLower() ?? "y";
+
+                var delay = 60000;
+                if (isSpecificTest == "n")
+                {
+                    Console.WriteLine("Default delay is 60 seconds between each instance. Add a custom timer? (y/n)");
+                    var isCustomDelay = Console.ReadLine().ToLower() ?? "n";
+
+                    if (isCustomDelay == "y")
+                    {
+                        Console.WriteLine("Please enter custom delay timer, in seconds");
+                        delay = Convert.ToInt32(Console.ReadLine()) * 1000;
+                    }
+                }
 
                 Console.WriteLine("Testing environment (a/b): \n(a) Staging \n(b) Production");
                 var selectedEnvironment = Console.ReadLine().ToLower() ?? "a";
 
-                Console.WriteLine("Type of instances (a/b): \n(a) Full \n(b) Random");
+                Console.WriteLine("Type of instances (a/b): \n (a) Full - it will run through everything in the stream \n (b) Random - it will randomly select options in the stream");
                 var selectedInstanceType = Console.ReadLine().ToLower() ?? "a";
 
-                Console.WriteLine("Specify browser? (y/n)");
+                Console.WriteLine("Specify a browser for instances? (y/n)");
                 var isBrowserSelected = Console.ReadLine().ToLower() ?? "y";
 
                 var pickedBrowser = string.Empty;
@@ -35,6 +50,7 @@ namespace OutreachAutomation.SeleniumBot
                     pickedBrowser = Console.ReadLine().ToLower() ?? "a";
                 }
 
+                // Is for testing all projects in automation
                 if (isSpecificTest != "y")
                 {
                     if (selectedEnvironment == "a") selectedEnvironment = "Staging";
@@ -44,20 +60,22 @@ namespace OutreachAutomation.SeleniumBot
 
                     var threads = new List<Thread>();
 
-                    Console.WriteLine($"Using links:");
+                    Console.WriteLine($"Using the following links:");
                     foreach (var unit in unitInfo.Units)
                     {
-                        Console.WriteLine($"{unit.UnitLink}");
+                        Console.WriteLine($" {unit.UnitLink}");
                         threads.Add(new Thread(_ => StartInstance(unit.UnitLink, isBrowserSelected, pickedBrowser, selectedInstanceType, mappings)));
                     }
 
+                    // Multithreading for each instance
                     foreach (var threading in threads)
                     {
-                        Thread.Sleep(10000);
-                        Console.WriteLine("\n");
                         threading.Start();
+                        Console.WriteLine("\n");
+                        Thread.Sleep(delay);
                     }
                 }
+                // Is for specific testing a link
                 else
                 {
                     Console.WriteLine("Enter number of threads: ");
